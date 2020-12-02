@@ -1,0 +1,350 @@
+<meta http-equiv="Content-Language" content="en">
+<style>
+
+</style>
+
+{% include 'plate_grid_view.html' rows = 8 columns = 12 letters_on = "row" row_pixel = 50 column_pixel = 50 %}
+<div id="response" class="alert"></div>
+<div class="page-header">
+  <h1>Create MiSEQ Plate</h1>
+</div>
+<div class="container">
+    <div id="plateDetails">
+        <h3>Plate Details</h3>
+        <table class="table table-striped">
+            <tr>
+                <td>
+                    <label>Name: </label>
+                </td>
+                <td>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="plateName" oninput="updatePlateName(0);">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>384 wells?</label>
+                </td>
+                <td>
+                    <input type="checkbox" id="largeBox" value="1">
+                </td>
+            </tr>
+        </table>
+    </div>
+    <h3>Parent Plates</h3>
+    <div class="row">
+        <div class="col-md-2">
+            <label>Parent Plate Name:</label>
+        </div>
+        <div class="col-md-3">
+            <input type="text" class="form-control" id="parentPlate">
+        </div>
+        <div class="col-md-1">
+            <button class="btn btn-warning" id="addPlate"><i class="glyphicon glyphicon-plus"></i> Add</button>
+        </div>
+    </div>
+    <br>
+</div>
+
+<div id="miseq">
+    <table id="parentCollection" class="table table-striped" hidden>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Type
+            </th>
+            <th>
+                Details
+            </th>
+            <th>
+                Clear
+            </th>
+        </tr>
+    </table>
+    <br>
+<div>
+
+<div id="plateVisual">
+    <div id="plateRow" class="col-md-12">
+        <div class="col-md-4">
+            <h4>Parent Plate: </h4>
+            <select id="freezeName" class="btn btn-default">
+                <option value="-">Parent Plate</option>
+            </select>
+        </div>
+        <div class="col-md-3" id="fpQuadDiv">
+            <h4>Plate:</h4>
+            <select id="fpQuad" class="btn btn-default">
+                <option value="A_1" selected="selected">1-96 (A01-H12)</option>
+                <option value="A_13">97-192 (A13-H24)</option>
+                <option value="I_1">193-288 (I1-P12)</option>
+                <option value="I_13">289-384 (I13-P24)</option>
+            </select>           
+        </div>
+        <div class="col-md-3">
+            <h4>Direction: </h4>
+            <button id="directionSwitch" class="btn btn-primary"><i id="directionIcon" class="glyphicon glyphicon-arrow-down"></i></button>
+        </div>
+        <div id="firstSplit" class="col-md-12"></div>
+            <div class="row col-md-12">
+                <div class="col-md-4">
+                    <h4>MiSEQ Plate: </h4>
+                    <h4 id="miseqName">MiSEQ Plate Name</h4>
+                </div>
+                <div class="col-md-4">
+                    <h4>Process:</h4>
+                    <select id="process" class="btn btn-default">
+                        <option value="nhej" selected="selected">No Template (NHEJ/WT only)</option>
+                        <option value="oligo">Oligo</option>
+                        <option value="vector">Vector</option>
+                    </select>
+                </div>
+                <div id="quadDiv" class="col-md-4">
+                    <h4>Plate:</h4>
+                    <select id="quad" class="btn btn-default">
+                        <option value="A_1" selected="selected">1-96 (A01-H12)</option>
+                        <option value="A_13">97-192 (A13-H24)</option>
+                        <option value="I_1">193-288 (I1-P12)</option>
+                        <option value="I_13">289-384 (I13-P24)</option>
+                    </select>
+                </div>
+
+            </div>
+        <div id="secondSplit" class="col-md-12"></div>
+    </div>
+    <div class="row">
+        <button type="button" class="btn btn-danger" onclick="clearPlate();">
+            Clear
+        </button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmationModal" onclick="populateModal();">
+            Submit
+        </button>
+    </div>
+</div>
+
+<div id="confirmationModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div class="col-md-12">
+                    <h4 class="modal-title col-md-4" id="modalMiseqName">MiSEQ Plate: </h4>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="modalName">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <div class="panel-group" id="accordion"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="updatePlateName(1);">Close</button>
+                <button type="button" class="btn btn-primary" onclick="submit();">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'plateupload/rearray_interface.html' %}
+
+<script>
+
+$(function () {
+    var isMouseDown = false;
+    var startIndex;
+
+    $("#secondSplit")
+        .mousedown(function(evt) {
+            startIndex = highlighter(evt.target);
+            isMouseDown = true;
+            console.log("Down.");
+        })
+        .mouseover(function(evt) {
+            if (isMouseDown == true){
+                highlighter(evt.target, startIndex);
+            }
+        });
+
+    $('body').mouseup(function(evt) {
+        if (isMouseDown == true) {
+            console.log("Up.");
+            isMouseDown = false;
+            $('.selecting').toggleClass('selecting selected');
+            d3.selectAll('.selected').style('fill', colourHash['green']);
+            var key = $('#freezeName').val();
+            if (key != '-') {
+                console.log('Triggered - body up');
+                var label = quadLabels[$('#quad').val()];
+                if (relationalData[key] == null) {
+                    relationalData[key] = {
+                        wells : { },
+                        process : $('#process').val(),
+                    }
+                } 
+                var plateDetails = relationalData[key];
+                plateDetails.process = $('#process').val(); //In case of change
+                plateDetails.wells[label] = { };
+
+                $('.miWell.selected').map(function() { return trackWells(key, label, this); });
+                $('.fpWell.selected').map(function() { return checkTile(); } )
+            }
+        }
+    });
+});
+
+function trackWells(key, section, well) {
+    var freezer = relationalData[key].wells[section];
+    freezer[$(well).parent()[0].id] = well.value;
+    relationalData[key].wells[section] = freezer;
+}
+
+function submit() {
+    var plateName = $('#modalName').val();
+    var largePlate = $('#largeBox:checked').val() || 0;
+    var container = {
+        name            : plateName,
+        large           : largePlate,
+        data            : relationalData
+    };
+    var data = JSON.stringify(container);
+    if (plateName != '') {
+        $('#response').attr('class','alert');
+        $.ajax({
+            url: '{{ baseUrl }}/api/miseq_plate/',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                json: data
+            },
+            success: function(result) {
+                $('#response').addClass('alert-success');
+                $('#response').text('Created MiSeq Plate: ' + result.name + ' with id: ' + result.id);
+                closeModal();
+            },
+            error: function(err) {
+                $('#response').addClass('alert-danger');
+                $('#response').text('Failed to create MiSeq plate: ' + err.responseJSON.error);
+                closeModal();
+            }
+        });
+    }
+}
+
+function clearPlate() {
+    var rects = $('rect').not('.invalid');
+    $('.miWell').map(function() { resetMiseqText(this); });
+    d3.selectAll(rects).style('fill', 'white');
+    d3.selectAll(rects).classed('selected', false);
+    var name = $('#freezeName').val();
+    relationalData[name] = {};
+}
+
+
+
+function findFpWells() {
+    var parentChildMapping = {};
+
+    var plateDetails = relationalData[$('#freezeName').val()];
+    if (plateDetails === undefined) {
+        return;
+    }
+    var quadrantLabel = quadLabels[$('#quad').val()];
+    var quadrantWellData = plateDetails.wells[quadrantLabel];
+
+    for (var childWell in quadrantWellData) {
+        parentChildMapping[quadrantWellData[childWell]] = childWell; //Parent => Child
+    }
+
+    return parentChildMapping;
+}
+
+function populateModal(){
+    $('#modalName').val($('#plateName').val());
+    $('#accordion').html("");
+    var freezerPlates = Object.keys(relationalData);
+
+    var panelOpening = '<div class="panel panel-default">';
+    var panelClosing = '</div>';
+    
+    var header = '<div class="panel-heading"><h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapse';
+    var headerClosing = '</a></h4></div>';
+    
+    var bodyOpen = '<div id="collapse';
+    var bodyClass = '" class="panel-collapse collapse"><div class="panel-body"><p>';
+    var bodyClosing = '</p></div></div>';
+
+    
+    for (var key = 0; key < freezerPlates.length; key++) {
+        var fpName = freezerPlates[key];
+        var fpDetails = relationalData[fpName].wells;
+        var process = relationalData[fpName].process;
+
+        var wellParagraph = "";
+
+        var quads = Object.keys(fpDetails);
+
+        for (var quad = 0; quad < quads.length; quad++) {
+            var quadDetails = fpDetails[quads[quad]];
+
+            var wellKeys = Object.keys(quadDetails);
+            var plateStructure = {};
+        
+            for (var well = 0; well < wellKeys.length; well++) {
+                var miseqWellName = wellKeys[well];
+                var fpWellName = quadDetails[miseqWellName];
+                var row = miseqWellName.charAt(0);
+                if (!(row in plateStructure)) {
+                    plateStructure[row] = [];
+                    plateStructure[row].push(fpWellName + " &rarr; " + miseqWellName);
+                } else {
+                    plateStructure[row].push('</br>' + fpWellName + " &rarr; " + miseqWellName);
+                }
+            }
+            var rows = Object.keys(plateStructure);
+
+            for (var row = 0; row < rows.length; row++) {
+                wellParagraph += plateStructure[rows[row]].toString() + '</br>';
+            }
+        }
+        var panelHeader = header + fpName + '">' + fpName + '&nbsp ~ &nbsp Process: ' + process + headerClosing;
+        var panelBody = bodyOpen + fpName + bodyClass + wellParagraph + bodyClosing;
+        var panel = panelOpening + panelHeader + panelBody + panelClosing;
+        $("#accordion").append(panel);
+    }
+}
+
+function showPlateHistory(parentName) {
+    var parentDetails = relationalData[parentName];
+    var quadrantLabel = quadLabels[$('#quad').val()];
+    var quadrantWells = parentDetails.wells[quadrantLabel];
+    var miWells = Object.keys(quadrantWells);
+    console.log(miWells);
+    wellHistory(0);
+    wellHistory(1);
+    for (var mi = 0; mi < miWells.length; mi++) {
+        var fpID = $('#firstSplit #' + quadrantWells[miWells[mi]] + ' .square')[0].id.split('_')[1];
+        var miID = $('#secondSplit #' + miWells[mi] + ' .square')[0].id.split('_')[1];
+        tracking(miID, fpID);
+    }
+}
+
+function wellHistory(plate) {
+    var fpRelations = findFpWells(relationalData);
+    if (fpRelations === undefined) {
+        return;
+    }
+    var fpWells = Object.keys(fpRelations);
+    $('.square').removeClassesExcept('square fpWell miWell');
+
+    fpWells.forEach(function(fp) {
+        d3.select('#firstSplit #' + fp + ' rect').classed('selected', true);
+        d3.select('#secondSplit #' + fpRelations[fp] + ' rect').classed('selected', true);
+    });
+    d3.selectAll('.selected').style('fill', colourHash['green']);
+
+    return;
+}
+</script>
