@@ -1,0 +1,72 @@
+ul.ui-autocomplete
+{
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 100%
+}
+
+#design-target-report th.group-header{
+    text-align: center;
+    vertical-align: middle;
+}
+
+#design-target-report th.design-target{
+    background: #EFEFEF;
+}
+
+#design-target-report td.design-target{
+    background: #EFEFEF;
+}
+
+#design-target-report th.design{
+    background: #F7F7F7;
+}
+
+#design-target-report td.design{
+    background: #F7F7F7;
+}
+
+#design-target-report th.crispr{
+    background: #FCFCFC;
+}
+
+#design-target-report td.crispr{
+    background: #FCFCFC;
+}
+
+.first_gene_report_col{
+  background:#FCF3CF !important;
+}
+
+.second_gene_report_col{
+  background:#D6EAF8 !important;
+}
+
+.selector_size_display{
+  display: none;
+  font-size: 13px;
+  color: red;
+  position: fixed;
+}
+
+.seq, .trace_sequence, .locus {
+    font-family: "Consolas",Monaco,"Lucida Console","Liberation Mono","DejaVu Sans Mono","Bitstream Vera Sans Mono","Courier New",monospace;
+}
+
+.locus {
+    white-space: nowrap;
+}
+
+.glyphicon.spinning {
+    animation: spin 1s infinite linear;
+    -webkit-animation: spin2 1s infinite linear;
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg); }
+    to { transform: scale(1) rotate(360deg); }
+}
+
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); }
+}
