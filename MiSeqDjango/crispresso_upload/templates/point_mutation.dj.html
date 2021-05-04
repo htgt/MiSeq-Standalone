@@ -1,11 +1,21 @@
 <!doctype html>
 <html lang="en">
 
+{% load static %}
+
 <head>
     <title>Point Mutation</title>
 </head>
-<script src="{% baseUrl %} + '/static/jquery/js/d3.min.js'"></script>
-<script src="{% baseUrl %} + '/static/jquery/js/d3-tip.js'"></script>
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/d3.min.js' %}"></script>
+<script src="{% static 'js/d3-tip.js' %}"></script>
+
+<script src="{% static 'css/jquery.custom.css' %}"></script>
+<script src="{% static 'css/lims2.css' %}"></script>
+<script src="{% static 'css/jquery.dataTables.min.css' %}"></script>
+<script src="{% static 'css/jquery.qtip.min.css' %}"></script>
+<script src="{% static 'css/jquery.bxslider.css' %}"></script>
+<script src="{% static 'css/jquery.bootgrid.min.css' %}"></script>
 <style>
 
 .d3-tip {
@@ -26,7 +36,7 @@
     line-height: 1;
     color: rgba(0, 0, 0, 0.8); /*Black, 80% opacity*/
     content: "\25BC";
-    position: absolute;
+    position: absolute;‹
     text-align: center;
 }
 
@@ -155,7 +165,7 @@ body {
     {% if large_plate == 1 %}
         {% include "./miseq_quadrant_table.dj.html" %}
     {% else %}
-        {% include "./miseq_overview_table.dj.html" with page = 0 x = 0 y = y1 %}
+        {% include "./miseq_overview_table.dj.html" with page=0 x=1 y=variables.y1 %}
     {% endif %}
 </div>
 
@@ -169,24 +179,31 @@ body {
 
 <script type="text/javascript" charset="utf-8">
 
-var data = '{{ wells }}';
+var data = '{{ summary }}';
 var json = jsonify(data);
-var rawExp = '{{ overview }}';
+var rawExp = '{{ overview }}'; //TODO: Import all of these from filesystem. probably.
 var overview = jsonify(rawExp);
+//var overview = {};
 var rawLink = '{{ gene_exp }}';
 var link = jsonify(rawLink);
+//var link = {};
 var rawTargets = '{{ efficiency }}';
 var efficiencies = jsonify(rawTargets);
+//var efficiencies = {};
 var rawQuads = '{{ quadrants }}';
 var quadrants;
 var rawDesigns = '{{ designs }}';
 var designs = jsonify(rawDesigns);
+//var designs = {};
 var rawDesignsReverse = '{{ designs_reverse }}';
 var designsReverse = jsonify(rawDesignsReverse);
+//var designsReverse = {};
 var rawPrefixs = '{{ gene_crispr }}';
 var prefixs = jsonify(rawPrefixs);
+//var prefixs = {};
 if (rawQuads) {
-    quadrants = jsonify(rawQuads);
+    //quadrants = jsonify(rawQuads);
+    quadrants = {};
 }
 var frameshiftJSON = "";
 var allExps = [];
@@ -244,17 +261,22 @@ $(document).ready(function() {
     createTextNodes();
     //frameshifts();
     windowDims();
-    $('[data-toggle="tooltip"]').tooltip();
+    //$('[data-toggle="tooltip"]').tooltip();
     buildExps(1);
     document.title = '{{ miseq }} - Point Mutation';
     resize();
     var select = '{{ selection }}';
     $('#geneSelect').val(select);
     $('#expSelect').val(select);
+    console.log("docRdy1 - I am here")
     highlight_init();
+    console.log("docRdy2 - I am here")
     crisprStartUp();
+    console.log("docRdy3 - I am here")
     clearButtonVisibility();
+    console.log("docRdy4 - I am here")
     downloadButtonVisibility();
+    console.log("docRdy5 - I am here")
 });
 
 $('#geneSelect').change(function() {
@@ -328,7 +350,10 @@ $(window).resize(function() {
 });
 
 function jsonify(raw) {
-    return JSON.parse(raw.replace(/&quot;/g,'"'));
+    console.log("I am here (jsonify)")
+    tempData = raw.replace(/\t/g, ',');
+    console.log(tempData)
+    return JSON.parse(tempData.replace(/&#x27;/g,'"'));
 }
 
 function createSVG() {
@@ -438,16 +463,16 @@ function buildQuadrant(quad) {
     var construct;
     switch (quad) {
         case "firstQuad":
-            construct = `{% include "./miseq_overview_table.dj.html" with page = 0 x = 0 y = y1 %}`;
+            construct = `{% include "./miseq_overview_table.dj.html" with page=0 x=0 y=y1 %}`;
             break;
         case "secondQuad":
-            construct = `{% include "./miseq_overview_table.dj.html" with page = 96 x = 12 y = y1 %}`;
+            construct = `{% include "./miseq_overview_table.dj.html" with page=96 x=12 y=y1 %}`;
             break;
         case "thirdQuad":
-            construct = `{% include "./miseq_overview_table.dj.html" with page = 192 x = 0 y = y2 %}`;
+            construct = `{% include "./miseq_overview_table.dj.html" with page=192 x=0 y=y2 %}`;
             break;
         case "fourthQuad":
-            construct = `{% include "./miseq_overview_table.dj.html" with page = 288 x = 12 y = y2 %}`;
+            construct = `{% include "./miseq_overview_table.dj.html" with page=288 x=12 y=y2 %}`;
             break;
         default:
             console.log("outside of plate limits..");
@@ -479,12 +504,15 @@ function buildOverview() {
 function resize() {
     windowDims();
     $("td").css("width", "8%");
+    console.log("resize1 - I am here");
     d3.selectAll('.svgTool')
         .attr('width', width)
         .attr('height', height);
+    console.log("resize2 - I am here");
     d3.selectAll('.teSvgTool')
         .attr('width', width + 20)
         .attr('height', height + 20);
+    console.log("resize3 - I am here");
     setTimeout(function(d) { d3.selectAll('path').filter('.wellPath').attr('d', arc) }, 300 );
     setTimeout(function(d) { d3.selectAll('path').filter('.tePath').attr('d', teArc) }, 300 );
     setTimeout(function(d) { d3.selectAll('frame').attr('d', fsArc) }, 300 );
@@ -498,6 +526,7 @@ function resize() {
 }
 
 function windowDims() { 
+    console.log("windowDims Start - I am here");
     width = window.innerWidth / 20;
     height = window.innerHeight / 13;
     radius = (Math.min(width, height) / 2) - 1;
@@ -515,6 +544,7 @@ function windowDims() {
         .innerRadius(fsRadius - (arcWidth - 2))
         .outerRadius(fsRadius)
         .startAngle(0);
+    console.log("windowDims End - I am here")
     return;
 }
 
@@ -522,9 +552,9 @@ function windowDims() {
 function wellArc(node) {
     var exp = document.getElementById('expSelect').value;
     if (exp == 'All') {
-        window.open('{% baseUrl %}' + 'point_mutation_allele/' + encodeURI('?miseq=' + '{% miseq %}' + '&oligoIndex=' + node.parentNode.id)); 
+        window.open('{{ request.get_host }}/point_mutation_allele/' + encodeURI('?miseq=True' + '&oligoIndex=' + node.parentNode.id)); 
     } else {
-        window.open('{% baseUrl %}' + 'point_mutation_allele/' + encodeURI('?miseq=' + '{% miseq %}' + '&oligoIndex=' + node.parentNode.id + '&exp=' + exp)); 
+        window.open('{{ request.get_host }}/point_mutation_allele/' + encodeURI('?miseq=True' + '&oligoIndex=' + node.parentNode.id + '&exp=' + exp)); 
     }
 }
 
@@ -687,6 +717,7 @@ function totalReads(well) {
 
 function calculateEfficiency(target) {
     var data;
+    console.log('calculate efficiency ' + target);
     if (target != 'All') {
         data = efficiencies.summary[target];
     } else {
@@ -720,13 +751,13 @@ function tooltip(node) {
     if (dataPoint.experiments.some(function(e){ return e == focusExp })) {
         response = `
             Illumina Index: ` + oligoIndex + `<br>
-            Gene: ` + overview.summary[focusExp].sort().toString() + `<br>
             Status: ` + dataPoint.details[focusExp].status + `<br>
             NHEJ: ` + dataPoint.percentages[focusExp].nhej + ` reads<br>
             WT: ` + dataPoint.percentages[focusExp].wt + ` reads<br>
             HDR: ` + dataPoint.percentages[focusExp].hdr + ` reads<br>
             Mixed: <span class="ttData">` + dataPoint.percentages[focusExp].mix + `</span> reads<br>
             Classification: ` + dataPoint.details[focusExp].class || "";
+            //Gene: ` + overview.summary[focusExp].sort().toString() + `<br>
     } else { 
         response = 'Oligo Index: ' + oligoIndex;
     }

@@ -1,6 +1,6 @@
 """Contains methods for the CRISPResso implementation of the parser"""
 
-import tarfile
+import os
 import re
 
 from .parser_interface import ParserInterface
@@ -11,38 +11,66 @@ class CrispressoParser(ParserInterface):
     global_threshold = 0
     threshold_percent = 0
 
-    def load_tar_file(self, file: tarfile, uploaded_file_path) -> dict:
+    def load_directory(self, file_path) -> dict:
         """Overrides ParserInterface.load_tar_file()"""
-        with file.open(uploaded_file_path, 'r|*') as tar:
-            return self.chunkify_tar_file(tar)
+        if not file_path:
+            file_path = self.DEFAULT_DIR
 
-    def extract_well_information(self, file, tar_info) -> dict:
+        print(file_path)
+
+        return self.chunkify_files(file_path)
+
+    def extract_well_information(self, dirname) -> dict:
         """Overrides ParserInterface.extract_well_information()"""
 
-        well_num_pattern = r'/(\d{2})/$'
+        print('dirname: ', dirname)
 
-        if tar_info.isfile():
-            method = self.check_file(tar_info)
-            
-            if method is not None:
-                io_string = file.extractfile(tar_info)
-                return method(io_string)
+        well_name = os.path.basename(dirname)
+        print('well_name: ', well_name)
+        well_info = self.get_well_info(dirname)
 
-        elif tar_info.isdir():
-            well_match = re.search(well_num_pattern, tar_info.name)
-            if well_match:
-                return {"name_" + well_match.group(0) : well_match.group(0)}
+        return { well_name : well_info}
 
-    def check_file(self, tar_info):
+        #elif os.path.isdir(filename):
+        #    well_match = re.search(well_num_pattern, filename)
+        #    if well_match:
+        #        well_name = os.path.basename(os.path.dirname(filename))
+        #        return {"name_" + well_name : well_name}
+
+    def yield_well_info(self, dirname):
+        """Returns a generator object that contains the well information."""
+        
+        subdirs = [x[0] for x in os.walk(dirname)]                                                                            
+        for subdir in subdirs:
+            files = os.walk(subdir).__next__()[2]
+            if (len(files) > 0):
+                for file in files:
+                    method = self.check_file(file)
+
+                    if method is not None:
+                        filename = os.path.join(subdir, file)
+                        io_string = open(filename, "r", encoding="utf-8")
+                        yield method(io_string)
+
+    def get_well_info(self, dirname):
+
+        well_info = dict()
+
+        for method_result in self.yield_well_info(dirname):
+            well_info.update(method_result)
+
+        return well_info
+
+    def check_file(self, filename):
         """Check which file has been opened, if no match discard."""
 
         alleles_freq_pattern = r'Alleles_frequency_table\.txt$'
         quant_pattern = r'Quantification_of_editing_frequency\.txt$'
         log_pattern = r'CRISPResso_RUNNING_LOG\.txt$'
 
-        alleles_match = re.search(alleles_freq_pattern, tar_info.name)
-        quant_match = re.search(quant_pattern, tar_info.name)
-        log_match = re.search(log_pattern, tar_info.name)
+        alleles_match = re.search(alleles_freq_pattern, filename)
+        quant_match = re.search(quant_pattern, filename)
+        log_match = re.search(log_pattern, filename)
 
         if alleles_match:
             return self.get_allele_data
@@ -53,27 +81,87 @@ class CrispressoParser(ParserInterface):
 
     def reconstruct_file_structure(self, array) -> dict:
         """Takes in an array and reconstructs it into the expected format depending on the specific implementation"""
-        well_key_pattern = r'name_(\d{2})$'
 
         data = {
-            "summary": {
-                "01": {
-                    "percentages": "quant_data"
+            'summary': {
+                '01': {
+                    'percentages': 'quant_data',
+                    'details': None
                 }
+            },
+            'overview': {
+                'summary': {
+                    'AAA01_A': ['AAA01']
+                }
+            },
+            'gene_exp': {
+                'summary': {
+                    'AAA01': ['AAA01_A']
+                }
+            },
+            'efficiency': {
+                'summary': {
+                    'AAA01': {
+                        'total': 9999,
+                        'nhej': 7777
+                    },
+                    'AAA01_A': {
+                        'total': 9999,
+                        'nhej': 7777
+                    },
+                    'all': {
+                        'total': 19998,
+                        'nhej': 15554
+                    }
+                }
+            },
+            'designs': {
+                'summary': {
+                    'AAA01': ['AAA01_A']
+                }
+            },
+            'designs_reverse': {
+                'summary': {
+                    'AAA01': ['1']
+                }
+            },
+            'gene_crispr': {
+                'summary': {
+                    'AAA01': ['AAA01_A']
+                }
+            },
+            'selection': 'All',
+            'variables': {
+                'y1': ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
+                'y2': ['I', 'J', 'K', 'L', 'M', 'N', 'O', 'P']
             }
         }
-        for item in array:
-            key_match = re.search(well_key_pattern, item.key)
-            current_well = "00"
-            if key_match:
-                current_well = key_match.group(0)
-            elif item.key == "quant_data":
-                data["summary"][current_well]["percentages"] = item.value
-            elif item.key == "lines":
-                pass
-            elif item.key == "log":
-                pass
-                
+
+        default_well = {
+                'percentages': 'null',
+                'details': 'null'
+            }
+
+        for well_dict in array:
+            if well_dict is None:
+                continue
+            print('well_dict: ', well_dict)
+            for well_num in range(384):
+                well = "{:02d}".format(well_num +1)
+                print('well: ', well)
+                data['summary'][well] = dict()
+                well_dict[well] = well_dict.get(well, default_well)
+                for key in well_dict[well]:
+                    print('key: ', key)
+                    if key == 'percentages':
+                        data['summary'][well]['percentages'] = well_dict[well][key]
+                    elif key == 'details':
+                        data['summary'][well]['details'] = well_dict[well][key]
+                    elif key == 'log':
+                        pass
+        
+        print('data: ', data)
+        return data
 
 
 
@@ -91,13 +179,13 @@ class CrispressoParser(ParserInterface):
 
         try:
             data = {
-                "unmod": processed_lines[1].split(':')[2],
-                "nhej": processed_lines[2].split(':')[2],
-                "hdr": processed_lines[3].split(':')[2],
-                "mix": processed_lines[4].split(':')[3],
-                "total": processed_lines[6].split(':')[2]
+                'unmod': processed_lines[1].split(':')[2],
+                'nhej': processed_lines[2].split(':')[2],
+                'hdr': processed_lines[3].split(':')[2],
+                'mix': processed_lines[4].split(':')[3],
+                'total': processed_lines[6].split(':')[2]
             }
-            return {"quant_data": data}
+            return {'percentages': data}
         except ValueError as exc:
             raise ValueError("Something went wrong when saving quant data to an object") from exc
 
@@ -110,21 +198,27 @@ class CrispressoParser(ParserInterface):
         processed_lines = list()
 
         if self.threshold_percent:
-            processed_lines = self.get_lines_above_threshold(lines)
+            for line in self.get_lines_above_threshold(lines):
+                processed_lines.append(line)
         elif threshold != 0:
             line_limit = min(threshold, len(lines))
             processed_lines = lines[0:line_limit]
 
-        return {"lines": processed_lines}
+        return {'details': processed_lines}
 
     def check_log(self, io_string) -> dict:
         """Checks log for running errors"""
         io_string.read()
-        return {"log": "log_data_goes_here"}
+        return {'log': 'log_data_goes_here'}
 
     def get_lines_above_threshold(self, lines):
         """Returns the lines that have above the specified threshold for displaying the data"""
+        iterlines = iter(lines)
+        next(iterlines)
 
-        for line in lines:
-            if float(line.split(',')[9]) > float(self.threshold_percent):
+        for line in iterlines:
+            if len(line.split('\t')) < 10:
+                print('skipping line')
+                continue
+            if float(line.split('\t')[9]) > float(self.threshold_percent):
                 yield line

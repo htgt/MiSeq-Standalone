@@ -1,27 +1,27 @@
+{% load standalone_filters %}
 <table id="grid-basic" class="table table-condensed table-hover">
     <thead>
         <tr>
             <th></th>
-            {% with count = 0 %}
-                {% while count < 12: %}
-                    {% count += 1 %}
+            {% with count=0 %}
+                {% for count in 12|times %}
                     <th data-column-id="{{ count }}" class="text-center">
-                        {{ count + x }}
+                        {{ count|add:x }}
                     </th>
-                {% endwhile %}
+                {% endfor %}
             {% endwith %}
         </tr>
     </thead>
     <tbody>
-        {% with base = 0 + page %}
+        {% with base=page|add:0 %}
             {% for letter in y %}
                 <tr id="{{ letter }}">
                     <th id="{{ letter }}-H">{{ letter }}</th>
-                    {% for cell in [ "01", "09", "17", "25", "33", "41", "49", "57", "65", "73", "81", "89" ] %}
-                        <td id="{% base + cell %}" class="svgContainer"></td>
+                    {% for cell in base|cell_base %}
+                        <td id="{{ cell }}" class="svgContainer"></td>
                     {% endfor %}
                 </tr>
-                {% base += 1 %}
+                {{ base|add:1 }}
             {% endfor %}
         {% endwith %}
     </tbody>
