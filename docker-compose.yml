@@ -1,0 +1,17 @@
+version: "3"  # optional since v1.27.0
+services:
+    web:
+        build: .
+        ports:
+            - "8000:8000"
+        volumes:
+            - .:/code
+            - datavolume:/var/data
+        links:
+            - memcached:cache
+    memcached:
+        image: memcached
+        ports:
+            - "11211:11211"
+volumes:
+    datavolume: {}

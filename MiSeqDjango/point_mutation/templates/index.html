@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+
+{% load static %}
+
+<head>
+    <title>Point Mutation</title>
+</head>
+
+{% include "./navbar.dj.html" %}
+
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/d3.min.js' %}"></script>
+<script src="{% static 'js/d3-tip.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/bootstrap-select.min.js' %}"></script>
+
+<link rel="icon" href="{% static 'favicon.ico' %}"></link>
+<link rel="stylesheet" type="text/css" href="{% static 'css/ui-lightness/jquery-ui-1.12.0.custom.css' %}"></link>
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}"></link>
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-select.min.css' %}"></link>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/jquery.dataTables.min.css' %}"></link>
+<link rel="stylesheet" type="text/css" href="{% static 'css/jquery.qtip.min.css' %}"></link>
+<link rel="stylesheet" type="text/css" href="{% static 'css/jquery.bxslider.css' %}"></link>
+<link rel="stylesheet" type="text/css" href="{% static 'css/jquery.bootgrid.min.css' %}"></link>
+<link rel="stylesheet" type="text/css" href="{% static 'css/jquery.custom.css' %}"></link>
+<link rel="stylesheet" type="text/css" href="{% static 'css/lims2.css' %}"></link>
+
+    <body>
+        <div id="main" class="container">
+        {% if folder_list %}
+            <div style="text-align:center">
+                <h2>Select Folder</h2>    
+            </div>
+
+            <div class="row">
+
+                {% for item in folder_list %}
+                
+                    <form class="column" action="{% url 'point_mutation:upload' %}" method="POST">
+                        <input type="hidden" name="folderPath" value={{ folder_path }} />
+                        <input type="hidden" name="item" value={{ item }} />
+                        <input id="submit" type="submit" class="button" value="{{ item }}"/>
+                    </form>
+
+                {% endfor %}
+            </div>
+        
+        {% else %}
+            <div style="text-align:center">
+                <h2>Upload folder to {{ folder_path }} to select for viewing.</h2>    
+            </div>
+        {% endif %}
+        </div> 
+    </body>
+</html>
+
+<style>
+    .button {
+        background-color: #4CAF50; /* Green */
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+    }
+
+    .container {
+        padding-top: 50px;
+    }
+</style>
