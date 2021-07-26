@@ -1,0 +1,85 @@
+INFO  @ Thu, 08 Oct 2020 12:56:36:
+	 Cut Points from guide seq:[53] 
+
+INFO  @ Thu, 08 Oct 2020 12:56:36:
+	 Creating Folder /lustre/scratch117/sciops/team87/MiSeq/miseq_093/S26_expCHAC2_DD/CRISPResso_on_26_S26_L001_R1_001_26_S26_L001_R2_001 
+
+INFO  @ Thu, 08 Oct 2020 12:56:36:
+	 Done! 
+
+INFO  @ Thu, 08 Oct 2020 12:56:36:
+	 Estimating average read length... 
+
+INFO  @ Thu, 08 Oct 2020 12:56:36:
+	 Merging paired sequences with Flash... 
+
+INFO  @ Thu, 08 Oct 2020 12:56:38:
+	 Done! 
+
+INFO  @ Thu, 08 Oct 2020 12:56:38:
+	 Preparing files for the alignment... 
+
+INFO  @ Thu, 08 Oct 2020 12:56:38:
+	 Done! 
+
+INFO  @ Thu, 08 Oct 2020 12:56:38:
+	 Gathering Phred33 qualities 
+
+INFO  @ Thu, 08 Oct 2020 12:56:40:
+	 Aligning sequences... 
+
+INFO  @ Thu, 08 Oct 2020 12:57:36:
+	 Done! 
+
+INFO  @ Thu, 08 Oct 2020 12:57:39:
+	 Align sequences to reverse complement of the amplicon... 
+
+INFO  @ Thu, 08 Oct 2020 12:57:39:
+	 Done! 
+
+INFO  @ Thu, 08 Oct 2020 12:58:37:
+	 Quantifying indels/substitutions... 
+
+INFO  @ Thu, 08 Oct 2020 12:58:37:
+	 Done! 
+
+INFO  @ Thu, 08 Oct 2020 12:58:37:
+	 Calculating indel distribution based on the length of the reads... 
+
+INFO  @ Thu, 08 Oct 2020 12:58:37:
+	 Done! 
+
+INFO  @ Thu, 08 Oct 2020 12:58:37:
+	 Reacquainting Read IDs with Phred33 Qualities 
+
+INFO  @ Thu, 08 Oct 2020 12:58:37:
+	 Calculating alleles frequencies... 
+
+INFO  @ Thu, 08 Oct 2020 12:58:37:
+	 Done! 
+
+INFO  @ Thu, 08 Oct 2020 12:58:37:
+	 Making Plots... 
+
+/nfs/team87/farm5/software/python_local/lib/python/CRISPResso-1.0.13-py2.7.egg/CRISPResso/CRISPRessoCORE.py:2036: RuntimeWarning: invalid value encountered in double_scalars
+  plt.yticks(y_label_values,['%.1f%% (%.1f%% , %d)' % (n_reads/float(N_TOTAL)*100,n_reads/float(N_REPAIRED)*100, n_reads) for n_reads in y_label_values])
+/nfs/team87/farm5/software/python_local/lib/python/CRISPResso-1.0.13-py2.7.egg/CRISPResso/CRISPRessoCORE.py:2036: RuntimeWarning: divide by zero encountered in double_scalars
+  plt.yticks(y_label_values,['%.1f%% (%.1f%% , %d)' % (n_reads/float(N_TOTAL)*100,n_reads/float(N_REPAIRED)*100, n_reads) for n_reads in y_label_values])
+/nfs/team87/farm5/software/python_local/lib/python/CRISPResso-1.0.13-py2.7.egg/CRISPResso/CRISPRessoCORE.py:2076: RuntimeWarning: invalid value encountered in double_scalars
+  plt.yticks(y_label_values,['%.1f%% (%.1f%% , %d)' % (n_reads/float(N_TOTAL)*100,n_reads/float(N_MIXED_HDR_NHEJ)*100, n_reads) for n_reads in y_label_values])
+/nfs/team87/farm5/software/python_local/lib/python/CRISPResso-1.0.13-py2.7.egg/CRISPResso/CRISPRessoCORE.py:2076: RuntimeWarning: divide by zero encountered in double_scalars
+  plt.yticks(y_label_values,['%.1f%% (%.1f%% , %d)' % (n_reads/float(N_TOTAL)*100,n_reads/float(N_MIXED_HDR_NHEJ)*100, n_reads) for n_reads in y_label_values])
+/nfs/users/nfs_b/bs15/.local/lib/python2.7/site-packages/matplotlib/cbook/deprecation.py:107: MatplotlibDeprecationWarning: stem() got an unexpected keyword argument 'lw'. This will raise a TypeError in future versions.
+  warnings.warn(message, mplDeprecation, stacklevel=1)
+INFO  @ Thu, 08 Oct 2020 12:58:49:
+	 Done! 
+
+INFO  @ Thu, 08 Oct 2020 12:58:49:
+	 Removing Intermediate files... 
+
+INFO  @ Thu, 08 Oct 2020 12:58:49:
+	 Saving processed data... 
+
+INFO  @ Thu, 08 Oct 2020 12:58:50:
+	 All Done! 
+

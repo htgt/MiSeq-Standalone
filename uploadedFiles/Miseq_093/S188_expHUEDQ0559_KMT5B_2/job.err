@@ -1,0 +1,78 @@
+INFO  @ Tue, 06 Oct 2020 10:47:00:
+	 Cut Points from guide seq:[107] 
+
+INFO  @ Tue, 06 Oct 2020 10:47:00:
+	 Creating Folder /lustre/scratch117/sciops/team87/MiSeq/miseq_093/S188_expHUEDQ0559_KMT5B_2/CRISPResso_on_188_S188_L001_R1_001_188_S188_L001_R2_001 
+
+INFO  @ Tue, 06 Oct 2020 10:47:00:
+	 Done! 
+
+INFO  @ Tue, 06 Oct 2020 10:47:00:
+	 Estimating average read length... 
+
+INFO  @ Tue, 06 Oct 2020 10:47:00:
+	 Merging paired sequences with Flash... 
+
+INFO  @ Tue, 06 Oct 2020 10:47:00:
+	 Done! 
+
+INFO  @ Tue, 06 Oct 2020 10:47:01:
+	 Preparing files for the alignment... 
+
+INFO  @ Tue, 06 Oct 2020 10:47:01:
+	 Done! 
+
+INFO  @ Tue, 06 Oct 2020 10:47:01:
+	 Gathering Phred33 qualities 
+
+INFO  @ Tue, 06 Oct 2020 10:47:01:
+	 Aligning sequences... 
+
+INFO  @ Tue, 06 Oct 2020 10:47:01:
+	 Align sequences to reverse complement of the amplicon... 
+
+INFO  @ Tue, 06 Oct 2020 10:47:01:
+	 Done! 
+
+INFO  @ Tue, 06 Oct 2020 10:47:01:
+	 Quantifying indels/substitutions... 
+
+INFO  @ Tue, 06 Oct 2020 10:47:01:
+	 Done! 
+
+INFO  @ Tue, 06 Oct 2020 10:47:01:
+	 Calculating indel distribution based on the length of the reads... 
+
+INFO  @ Tue, 06 Oct 2020 10:47:01:
+	 Done! 
+
+INFO  @ Tue, 06 Oct 2020 10:47:01:
+	 Reacquainting Read IDs with Phred33 Qualities 
+
+INFO  @ Tue, 06 Oct 2020 10:47:01:
+	 Calculating alleles frequencies... 
+
+INFO  @ Tue, 06 Oct 2020 10:47:01:
+	 Done! 
+
+INFO  @ Tue, 06 Oct 2020 10:47:01:
+	 Making Plots... 
+
+/nfs/team87/farm5/software/python_local/lib/python/CRISPResso-1.0.13-py2.7.egg/CRISPResso/CRISPRessoCORE.py:1991: RuntimeWarning: invalid value encountered in double_scalars
+  plt.yticks(y_label_values,['%.1f%% (%.1f%% , %d)' % (n_reads/float(N_TOTAL)*100,n_reads/float(N_MODIFIED)*100, n_reads) for n_reads in y_label_values])
+/nfs/team87/farm5/software/python_local/lib/python/CRISPResso-1.0.13-py2.7.egg/CRISPResso/CRISPRessoCORE.py:1991: RuntimeWarning: divide by zero encountered in double_scalars
+  plt.yticks(y_label_values,['%.1f%% (%.1f%% , %d)' % (n_reads/float(N_TOTAL)*100,n_reads/float(N_MODIFIED)*100, n_reads) for n_reads in y_label_values])
+/nfs/users/nfs_b/bs15/.local/lib/python2.7/site-packages/matplotlib/cbook/deprecation.py:107: MatplotlibDeprecationWarning: stem() got an unexpected keyword argument 'lw'. This will raise a TypeError in future versions.
+  warnings.warn(message, mplDeprecation, stacklevel=1)
+INFO  @ Tue, 06 Oct 2020 10:47:23:
+	 Done! 
+
+INFO  @ Tue, 06 Oct 2020 10:47:23:
+	 Removing Intermediate files... 
+
+INFO  @ Tue, 06 Oct 2020 10:47:23:
+	 Saving processed data... 
+
+INFO  @ Tue, 06 Oct 2020 10:47:24:
+	 All Done! 
+

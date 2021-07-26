@@ -1,0 +1,2 @@
+Aligned_Sequence	Reference_Sequence	Unedited	%Reads	#Reads
+CCCTGCAACACAACAGC--------------TTTCAACAT	CCCCGCAACACAACAGCTTTATTAGGAGGGATTTCAACAT	False	100.0	1

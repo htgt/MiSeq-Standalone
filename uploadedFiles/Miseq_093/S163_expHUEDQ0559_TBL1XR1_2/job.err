@@ -1,0 +1,74 @@
+INFO  @ Tue, 06 Oct 2020 10:46:55:
+	 Cut Points from guide seq:[97] 
+
+INFO  @ Tue, 06 Oct 2020 10:46:55:
+	 Creating Folder /lustre/scratch117/sciops/team87/MiSeq/miseq_093/S163_expHUEDQ0559_TBL1XR1_2/CRISPResso_on_163_S163_L001_R1_001_163_S163_L001_R2_001 
+
+INFO  @ Tue, 06 Oct 2020 10:46:55:
+	 Done! 
+
+INFO  @ Tue, 06 Oct 2020 10:46:55:
+	 Estimating average read length... 
+
+INFO  @ Tue, 06 Oct 2020 10:46:55:
+	 Merging paired sequences with Flash... 
+
+INFO  @ Tue, 06 Oct 2020 10:46:56:
+	 Done! 
+
+INFO  @ Tue, 06 Oct 2020 10:46:57:
+	 Preparing files for the alignment... 
+
+INFO  @ Tue, 06 Oct 2020 10:46:57:
+	 Done! 
+
+INFO  @ Tue, 06 Oct 2020 10:46:57:
+	 Gathering Phred33 qualities 
+
+INFO  @ Tue, 06 Oct 2020 10:46:58:
+	 Aligning sequences... 
+
+INFO  @ Tue, 06 Oct 2020 10:47:38:
+	 Align sequences to reverse complement of the amplicon... 
+
+INFO  @ Tue, 06 Oct 2020 10:47:38:
+	 Done! 
+
+INFO  @ Tue, 06 Oct 2020 10:48:17:
+	 Quantifying indels/substitutions... 
+
+INFO  @ Tue, 06 Oct 2020 10:48:17:
+	 Done! 
+
+INFO  @ Tue, 06 Oct 2020 10:48:17:
+	 Calculating indel distribution based on the length of the reads... 
+
+INFO  @ Tue, 06 Oct 2020 10:48:17:
+	 Done! 
+
+INFO  @ Tue, 06 Oct 2020 10:48:17:
+	 Reacquainting Read IDs with Phred33 Qualities 
+
+INFO  @ Tue, 06 Oct 2020 10:48:17:
+	 Calculating alleles frequencies... 
+
+INFO  @ Tue, 06 Oct 2020 10:48:17:
+	 Done! 
+
+INFO  @ Tue, 06 Oct 2020 10:48:17:
+	 Making Plots... 
+
+/nfs/users/nfs_b/bs15/.local/lib/python2.7/site-packages/matplotlib/cbook/deprecation.py:107: MatplotlibDeprecationWarning: stem() got an unexpected keyword argument 'lw'. This will raise a TypeError in future versions.
+  warnings.warn(message, mplDeprecation, stacklevel=1)
+INFO  @ Tue, 06 Oct 2020 10:48:32:
+	 Done! 
+
+INFO  @ Tue, 06 Oct 2020 10:48:32:
+	 Removing Intermediate files... 
+
+INFO  @ Tue, 06 Oct 2020 10:48:32:
+	 Saving processed data... 
+
+INFO  @ Tue, 06 Oct 2020 10:48:32:
+	 All Done! 
+

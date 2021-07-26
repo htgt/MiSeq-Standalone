@@ -1,0 +1,7 @@
+Quantification of editing frequency:
+	- Unmodified:3725 reads
+	- NHEJ:4638 reads (6 reads with insertions, 4470 reads with deletions, 360 reads with substitutions)
+	- HDR:0 reads (0 reads with insertions, 0 reads with deletions, 0 reads with substitutions)
+	- Mixed HDR-NHEJ:0 reads (0 reads with insertions, 0 reads with deletions, 0 reads with substitutions)
+
+Total Aligned:8363 reads 

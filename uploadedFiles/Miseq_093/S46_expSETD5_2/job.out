@@ -1,0 +1,66 @@
+Sender: LSF System <lsfadmin@bc-27-3-13>
+Subject: Job 666957: </nfs/team87/farm5/software/python_local/bin/CRISPResso -w 50 --quality --hide_mutations_outside_window_NHEJ --save_also_png -o S46_expSETD5_2 -r1 ./46_S46_L001_R1_001.fastq.gz -r2 ./46_S46_L001_R2_001.fastq.gz -a CTACAGAATTCTCCCTCTGAAGCacagaatttagatgagaatacaactgagggctgggaaaatcggataagactatggactgaccagtatgaagaagctttcactaatcagtacagtgcagatgtacagaacgcgcttgaacaacacctacattctagcaaggaatttgtgggcaaacctactattttagacactattaataagactgaattggcctgtaataacacagttattggttcccaaatgcaggtaagcaccaaAGGGTTGAGGACTCTCTAAGTAG -g CCAGTATGAAGAAGCTTTCA> in cluster <farm5> Done
+
+Job </nfs/team87/farm5/software/python_local/bin/CRISPResso -w 50 --quality --hide_mutations_outside_window_NHEJ --save_also_png -o S46_expSETD5_2 -r1 ./46_S46_L001_R1_001.fastq.gz -r2 ./46_S46_L001_R2_001.fastq.gz -a CTACAGAATTCTCCCTCTGAAGCacagaatttagatgagaatacaactgagggctgggaaaatcggataagactatggactgaccagtatgaagaagctttcactaatcagtacagtgcagatgtacagaacgcgcttgaacaacacctacattctagcaaggaatttgtgggcaaacctactattttagacactattaataagactgaattggcctgtaataacacagttattggttcccaaatgcaggtaagcaccaaAGGGTTGAGGACTCTCTAAGTAG -g CCAGTATGAAGAAGCTTTCA> was submitted from host <sci-batch-farm5> by user <bs15> in cluster <farm5> at Tue Oct  6 10:46:17 2020
+Job was executed on host(s) <bc-27-3-13>, in queue <normal>, as user <bs15> in cluster <farm5> at Tue Oct  6 10:46:18 2020
+</nfs/users/nfs_b/bs15> was used as the home directory.
+</lustre/scratch117/sciops/team87/MiSeq/miseq_093> was used as the working directory.
+Started at Tue Oct  6 10:46:18 2020
+Terminated at Tue Oct  6 10:50:58 2020
+Results reported at Tue Oct  6 10:50:58 2020
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+/nfs/team87/farm5/software/python_local/bin/CRISPResso -w 50 --quality --hide_mutations_outside_window_NHEJ --save_also_png -o S46_expSETD5_2 -r1 ./46_S46_L001_R1_001.fastq.gz -r2 ./46_S46_L001_R2_001.fastq.gz -a CTACAGAATTCTCCCTCTGAAGCacagaatttagatgagaatacaactgagggctgggaaaatcggataagactatggactgaccagtatgaagaagctttcactaatcagtacagtgcagatgtacagaacgcgcttgaacaacacctacattctagcaaggaatttgtgggcaaacctactattttagacactattaataagactgaattggcctgtaataacacagttattggttcccaaatgcaggtaagcaccaaAGGGTTGAGGACTCTCTAAGTAG -g CCAGTATGAAGAAGCTTTCA
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   272.24 sec.
+    Max Memory :                                 361 MB
+    Average Memory :                             212.40 MB
+    Total Requested Memory :                     2000.00 MB
+    Delta Memory :                               1639.00 MB
+    Max Swap :                                   -
+    Max Processes :                              10
+    Max Threads :                                12
+    Run time :                                   280 sec.
+    Turnaround time :                            281 sec.
+
+The output (if any) follows:
+
+  
+~~~CRISPResso~~~
+-Analysis of CRISPR/Cas9 outcomes from deep sequencing data-
+
+                      )
+                     (
+                    __)__
+                 C\|     |
+                   \     /
+                    \___/
+             
+
+[Luca Pinello 2015, send bugs, suggestions or *green coffee* to lucapinello AT gmail DOT com]
+
+Version 1.0.13
+
+./46_S46_L001_R1_001.fastq.gz
+
+                  )
+                 (
+                __)__
+             C\|     |
+               \     /
+                \___/
+                
+
+
+PS:
+
+Read file <S46_expSETD5_2/job.err> for stderr output of this job.
+

@@ -1,0 +1,58 @@
+Sender: LSF System <lsfadmin@node-10-3-1>
+Subject: Job 667370: </nfs/team87/farm5/software/python_local/bin/CRISPResso -w 50 --quality --hide_mutations_outside_window_NHEJ --save_also_png -o S190_expHUEDQ0559_CTCF_1 -r1 ./190_S190_L001_R1_001.fastq.gz -r2 ./190_S190_L001_R2_001.fastq.gz -a CTCAGCCTTCCTAAGACCTGTAgattctctgtggtgtagcatatctgccacctgagttaccctccagttaaattacagtatttattcatttcatttatgtgttcattctgtattttctttaaaggggaaaagccttatgaatgttatatttgtcatgctcggtttacccaaagtggtaccatgaagatgcacattttacagaagcacacagaaaatgtggCCAAATTTCACTGTCCCCACTG -g CATGCTCGGTTTACCCAAAG> in cluster <farm5> Exited
+
+Job </nfs/team87/farm5/software/python_local/bin/CRISPResso -w 50 --quality --hide_mutations_outside_window_NHEJ --save_also_png -o S190_expHUEDQ0559_CTCF_1 -r1 ./190_S190_L001_R1_001.fastq.gz -r2 ./190_S190_L001_R2_001.fastq.gz -a CTCAGCCTTCCTAAGACCTGTAgattctctgtggtgtagcatatctgccacctgagttaccctccagttaaattacagtatttattcatttcatttatgtgttcattctgtattttctttaaaggggaaaagccttatgaatgttatatttgtcatgctcggtttacccaaagtggtaccatgaagatgcacattttacagaagcacacagaaaatgtggCCAAATTTCACTGTCCCCACTG -g CATGCTCGGTTTACCCAAAG> was submitted from host <sci-batch-farm5> by user <bs15> in cluster <farm5> at Tue Oct  6 10:47:20 2020
+Job was executed on host(s) <node-10-3-1>, in queue <normal>, as user <bs15> in cluster <farm5> at Tue Oct  6 10:47:22 2020
+</nfs/users/nfs_b/bs15> was used as the home directory.
+</lustre/scratch117/sciops/team87/MiSeq/miseq_093> was used as the working directory.
+Started at Tue Oct  6 10:47:22 2020
+Terminated at Tue Oct  6 10:47:25 2020
+Results reported at Tue Oct  6 10:47:25 2020
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+/nfs/team87/farm5/software/python_local/bin/CRISPResso -w 50 --quality --hide_mutations_outside_window_NHEJ --save_also_png -o S190_expHUEDQ0559_CTCF_1 -r1 ./190_S190_L001_R1_001.fastq.gz -r2 ./190_S190_L001_R2_001.fastq.gz -a CTCAGCCTTCCTAAGACCTGTAgattctctgtggtgtagcatatctgccacctgagttaccctccagttaaattacagtatttattcatttcatttatgtgttcattctgtattttctttaaaggggaaaagccttatgaatgttatatttgtcatgctcggtttacccaaagtggtaccatgaagatgcacattttacagaagcacacagaaaatgtggCCAAATTTCACTGTCCCCACTG -g CATGCTCGGTTTACCCAAAG
+------------------------------------------------------------
+
+Exited with exit code 7.
+
+Resource usage summary:
+
+    CPU time :                                   1.56 sec.
+    Max Memory :                                 53 MB
+    Average Memory :                             35.33 MB
+    Total Requested Memory :                     2000.00 MB
+    Delta Memory :                               1947.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                4
+    Run time :                                   4 sec.
+    Turnaround time :                            5 sec.
+
+The output (if any) follows:
+
+  
+~~~CRISPResso~~~
+-Analysis of CRISPR/Cas9 outcomes from deep sequencing data-
+
+                      )
+                     (
+                    __)__
+                 C\|     |
+                   \     /
+                    \___/
+             
+
+[Luca Pinello 2015, send bugs, suggestions or *green coffee* to lucapinello AT gmail DOT com]
+
+Version 1.0.13
+
+./190_S190_L001_R1_001.fastq.gz
+
+
+PS:
+
+Read file <S190_expHUEDQ0559_CTCF_1/job.err> for stderr output of this job.
+

@@ -1,0 +1,47 @@
+INFO  @ Thu, 08 Oct 2020 12:56:58:
+	 Cut Points from guide seq:[53] 
+
+INFO  @ Thu, 08 Oct 2020 12:56:58:
+	 Creating Folder /lustre/scratch117/sciops/team87/MiSeq/miseq_093/S27_expCHAC2_DD/CRISPResso_on_27_S27_L001_R1_001_27_S27_L001_R2_001 
+
+INFO  @ Thu, 08 Oct 2020 12:56:58:
+	 Done! 
+
+INFO  @ Thu, 08 Oct 2020 12:56:59:
+	 Estimating average read length... 
+
+INFO  @ Thu, 08 Oct 2020 12:56:59:
+	 Merging paired sequences with Flash... 
+
+INFO  @ Thu, 08 Oct 2020 12:57:00:
+	 Done! 
+
+INFO  @ Thu, 08 Oct 2020 12:57:01:
+	 Preparing files for the alignment... 
+
+INFO  @ Thu, 08 Oct 2020 12:57:01:
+	 Done! 
+
+INFO  @ Thu, 08 Oct 2020 12:57:01:
+	 Gathering Phred33 qualities 
+
+INFO  @ Thu, 08 Oct 2020 12:57:03:
+	 Aligning sequences... 
+
+INFO  @ Thu, 08 Oct 2020 12:58:20:
+	 Done! 
+
+INFO  @ Thu, 08 Oct 2020 12:58:24:
+	 Align sequences to reverse complement of the amplicon... 
+
+INFO  @ Thu, 08 Oct 2020 12:58:24:
+	 Done! 
+
+INFO  @ Thu, 08 Oct 2020 12:59:43:
+	 Quantifying indels/substitutions... 
+
+CRITICAL @ Thu, 08 Oct 2020 12:59:43:
+	 Alignment error, please check your input.
+
+ERROR: Zero sequences aligned, please check your amplicon sequence 
+

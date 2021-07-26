@@ -1,0 +1,70 @@
+[Command used]:
+CRISPResso /nfs/team87/farm5/software/python_local/bin/CRISPResso -w 50 --quality --hide_mutations_outside_window_NHEJ --save_also_png -o S83_expCHAC2_DD -r1 ./83_S83_L001_R1_001.fastq.gz -r2 ./83_S83_L001_R2_001.fastq.gz -a gaaatgtttgaggagtaggcttctgctcctgttcataccccaccacaacgcattctttggtgctccattgataagagcaccctctttggtgctccattgataagagcacctctgcttaatccccagtgtacactacattatgcagagatggccattcaactaccagcaatgctcagcctcaatatacagc -g ccccaccacaacgcattctt -e gaaatgtttgaggagtaggcttctgctcctgttcataccccaccacaacgcattctgcttaatccccagtgtacactacattatgcagagatggccattcaactaccagcaatgctcagcctcaatatacagc
+
+[Execution log]:
+Estimating average read length...
+Merging paired sequences with Flash...
+[FLASH] WARNING: --read-len (-r) has no effect when --max-overlap (-M) is also
+specified!
+[FLASH] WARNING: --fragment-len (-f) has no effect when --max-overlap (-M) is
+also specified!
+[FLASH] WARNING: --fragment-len-stddev (-s) has no effect when --max-overlap
+(-M) is also specified!
+[FLASH] Starting FLASH v1.2.11
+[FLASH] Fast Length Adjustment of SHort reads
+[FLASH]  
+[FLASH] Input files:
+[FLASH]     ./83_S83_L001_R1_001.fastq.gz
+[FLASH]     ./83_S83_L001_R2_001.fastq.gz
+[FLASH]  
+[FLASH] Output files:
+[FLASH]     /lustre/scratch117/sciops/team87/MiSeq/miseq_093/S83_expCHAC2_DD/CRISPResso_on_83_S83_L001_R1_001_83_S83_L001_R2_001/out.extendedFrags.fastq.gz
+[FLASH]     /lustre/scratch117/sciops/team87/MiSeq/miseq_093/S83_expCHAC2_DD/CRISPResso_on_83_S83_L001_R1_001_83_S83_L001_R2_001/out.notCombined_1.fastq.gz
+[FLASH]     /lustre/scratch117/sciops/team87/MiSeq/miseq_093/S83_expCHAC2_DD/CRISPResso_on_83_S83_L001_R1_001_83_S83_L001_R2_001/out.notCombined_2.fastq.gz
+[FLASH]     /lustre/scratch117/sciops/team87/MiSeq/miseq_093/S83_expCHAC2_DD/CRISPResso_on_83_S83_L001_R1_001_83_S83_L001_R2_001/out.hist
+[FLASH]     /lustre/scratch117/sciops/team87/MiSeq/miseq_093/S83_expCHAC2_DD/CRISPResso_on_83_S83_L001_R1_001_83_S83_L001_R2_001/out.histogram
+[FLASH]  
+[FLASH] Parameters:
+[FLASH]     Min overlap:           4
+[FLASH]     Max overlap:           100
+[FLASH]     Max mismatch density:  0.250000
+[FLASH]     Allow "outie" pairs:   true
+[FLASH]     Cap mismatch quals:    false
+[FLASH]     Combiner threads:      32
+[FLASH]     Input format:          FASTQ, phred_offset=33
+[FLASH]     Output format:         FASTQ, phred_offset=33, gzip
+[FLASH]  
+[FLASH] Starting reader and writer threads
+[FLASH] Starting 32 combiner threads
+[FLASH] Processed 25000 read pairs
+[FLASH] Processed 27068 read pairs
+[FLASH]  
+[FLASH] Read combination statistics:
+[FLASH]     Total pairs:      27068
+[FLASH]     Combined pairs:   26992
+[FLASH]         Innie pairs:   26655 (98.75% of combined)
+[FLASH]         Outie pairs:   337 (1.25% of combined)
+[FLASH]     Uncombined pairs: 76
+[FLASH]     Percent combined: 99.72%
+[FLASH]  
+[FLASH] Writing histogram files.
+[FLASH]  
+[FLASH] FLASH v1.2.11 complete!
+[FLASH] 2.291 seconds elapsed
+[FLASH] Finished with 3 warnings (see above)
+Done!
+Preparing files for the alignment...
+Done!
+Gathering Phred33 qualities
+Aligning sequences...
+Needleman-Wunsch global alignment of two sequences
+Needleman-Wunsch global alignment of two sequences
+Done!
+Align sequences to reverse complement of the amplicon...
+Done!
+Needleman-Wunsch global alignment of two sequences
+Needleman-Wunsch global alignment of two sequences
+Quantifying indels/substitutions...
+Alignment error, please check your input.
+
+ERROR: Zero sequences aligned, please check your amplicon sequence
