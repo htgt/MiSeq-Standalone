@@ -8,7 +8,7 @@
             "name": "Python: Django",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/MiSeqDjango/manage.py",
+            "program": "${workspaceFolder}/MiSeq-Standalone/manage.py",
             "args": [
                 "runserver",
                 "0:8000"
