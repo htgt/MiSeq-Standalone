@@ -53,6 +53,7 @@ def point_mutation_allele(request, miseq, oligo_index, exp):
     experiments = data['summary'][well_num]['experiments']
     gene = data['summary'][well_num]['gene']
     details = data['summary'][well_num]['details']
+    indel_stats = data['summary'][well_num]
     ##designs = data['designs']['summary']['1'][]
 
     context = data

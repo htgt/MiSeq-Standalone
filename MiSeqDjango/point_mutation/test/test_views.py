@@ -1,4 +1,4 @@
-import io
+""" import io
 import mock
 
 from django.test import TestCase
@@ -43,3 +43,4 @@ Total Aligned:125150 reads ''')
 
     def return_true(*args, **kwargs):
         return true
+ """

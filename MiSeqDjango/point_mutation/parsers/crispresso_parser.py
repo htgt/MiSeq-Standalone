@@ -41,7 +41,7 @@ class CrispressoParser(ParserInterface):
                             'gene' : [ gene ],
                             'overview_data' : [ exp , gene ]
                         })
-
+        
         return { file_name_info[0] : well_info}
 
         #elif os.path.isdir(filename):
@@ -93,8 +93,6 @@ class CrispressoParser(ParserInterface):
         large_plate = len(array) > 96
 
         folder_name = os.path.basename(os.path.dirname(file_path))
-
-        print
 
         data = {
             'large_plate': large_plate,
