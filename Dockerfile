@@ -9,4 +9,4 @@ RUN pip3 install -r /app/requirements.txt
 COPY . /app
 WORKDIR /app
 EXPOSE 8000
-CMD python3 /app/MiSeq-Standalone/manage.py runserver 0:8000
+CMD python3 /app/MiSeq_Standalone/manage.py runserver 0:8000
