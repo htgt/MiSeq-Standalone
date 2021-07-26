@@ -51,18 +51,18 @@ class CrispressoParserTestCase(SimpleTestCase):
 
         # extract summary data
         extract_summary_data_config = { 'method.return_value': self.data['summary_data']}
-        self.patchers['extract_summary_data'] = patch('CrispressoParser.extract_summary_data', **extract_summary_data_config)
+        self.patchers['extract_summary_data'] = patch('point_mutation.parsers.crispresso_parser.CrispressoParser.extract_summary_data', **extract_summary_data_config)
 
         # chunkify files
-        self.patchers['chunkify_files'] = patch('CrispressoParser.chunkify_files')
+        self.patchers['chunkify_files'] = patch('point_mutation.parsers.crispresso_parser.CrispressoParser.chunkify_files')
 
         # get_file_name_info
         get_file_name_info_config = { 'method.return_value': self.data['file_name_info']}
-        self.patchers['get_file_name_info'] = patch('CrispressoParser.get_file_name_info', **get_file_name_info_config)
+        self.patchers['get_file_name_info'] = patch('point_mutation.parsers.crispresso_parser.CrispressoParser.get_file_name_info', **get_file_name_info_config)
 
         # get_well_info
         get_well_info_config = { 'method.return_value': self.data['well_info']}
-        self.patchers['get_well_info'] = patch('CrispressoParser.get_well_info', **get_well_info_config)
+        self.patchers['get_well_info'] = patch('point_mutation.parsers.crispresso_parser.CrispressoParser.get_well_info', **get_well_info_config)
 
         # walk
         walk_config = { 'method.return_value': [['dirpath'], ['dirname'], ['filename']]}
@@ -70,7 +70,7 @@ class CrispressoParserTestCase(SimpleTestCase):
 
         # check_file
         check_file_config = { 'method.return_value': self.mocked_check_file_return_method }
-        self.patchers['check_file'] = patch('CrispressoParser.check_file', **check_file_config)
+        self.patchers['check_file'] = patch('point_mutation.parsers.crispresso_parser.CrispressoParser.check_file', **check_file_config)
 
         # open
         open_config = { 'method.return_value': 'io string value' }
