@@ -23,6 +23,12 @@ class CrispressoParserTestCase(SimpleTestCase):
                     'NHEJ': '76791',
                     'Total': '573759',
                     'max_index': '96'
+                },
+            },
+            'summary_dict' : { 
+                'KMT2A_1': {
+                    'Experiment': 'KMT2A_1',
+                    'Gene': 'KMT2A'
                 }
             },
             'well_info': {
@@ -74,7 +80,7 @@ class CrispressoParserTestCase(SimpleTestCase):
 
         # open
         open_config = { 'method.return_value': 'io string value' }
-        self.patchers['open_config'] = patch('__main__.open', **open_config)
+        self.patchers['open'] = patch('__main__.open', **open_config)
 
 
     
@@ -86,7 +92,7 @@ class CrispressoParserTestCase(SimpleTestCase):
         self.parser.load_directory(self.data['file_path'])
         
         self.parser.extract_summary_data.assert_called_once_with(self.data['file_path'])
-        self.parser.chunkify_files.assert_called_once_with(self.data['file_path', self.data['sumamry_data']])
+        self.parser.chunkify_files.assert_called_once_with(self.data['file_path', self.data['summary_data']])
 
         self.stop_patchers(patchers)
 
@@ -97,7 +103,7 @@ class CrispressoParserTestCase(SimpleTestCase):
 
         file_name = self.data['file_path'] + "/S1_expKMT2A_1"
 
-        well_info = self.parser.extract_well_information(file_name, self.data['summary_data'])
+        well_info = self.parser.extract_well_information(file_name, self.data['summary_dict'])
 
         self.parser.get_file_name_info.assert_called_once_with('S1_expKMT2A_1')
         self.parser.get_well_info.assert_called_once_with(file_name, 'KMT2A_1')
@@ -114,7 +120,7 @@ class CrispressoParserTestCase(SimpleTestCase):
 
         file_name = self.data['file_path'] + "/summary.csv"
 
-        well_info = self.parser.extract_well_information(file_name, self.data['summary_data'])
+        well_info = self.parser.extract_well_information(file_name, self.data['summary_dict'])
 
         self.parser.get_file_name_info.assert_not_called()
         self.parser.get_well_info.assert_not_called()
