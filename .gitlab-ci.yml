@@ -13,11 +13,6 @@ image: python:latest
 services:
   - memcached:latest
 
-tags:
-  - miseq
-  - test
-  - standalone
-
 variables:
   
 
