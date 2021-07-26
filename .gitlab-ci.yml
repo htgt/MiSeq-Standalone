@@ -49,4 +49,4 @@ before_script:
 test:
   variables:
   script:
-    - python3 manage.py test --pattern="test*" --settings=MiSeqDjango.no_db_settings
+    - python3 manage.py test --pattern="test*" --settings=MiSeq-Standalone.no_db_settings
