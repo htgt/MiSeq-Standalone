@@ -4,7 +4,7 @@
 {% load static %}
 
 <head>
-    <title>Point Mutation</title>
+    <title>Point Mutation - Upload Folder</title>
 </head>
 
 {% include "./navbar.dj.html" %}
@@ -31,49 +31,49 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.custom.css' %}"></link>
 <link rel="stylesheet" type="text/css" href="{% static 'css/lims2.css' %}"></link>
 
-    <body>
-        <div id="main" class="container">
-        {% if folder_list %}
-            <div style="text-align:center">
-                <h2>Select Folder</h2>    
-            </div>
+<body>
+    <div id="main" class="container">
+    {% if folder_list %}
+        <div style="text-align:center">
+            <h2>Select Folder</h2>    
+        </div>
 
-            <div class="row">
+        <div class="row">
 
-                {% for item in folder_list %}
-                
-                    <form class="column" action="{% url 'point_mutation:upload' %}" method="POST">
-                        <input type="hidden" name="folderPath" value={{ folder_path }} />
-                        <input type="hidden" name="item" value={{ item }} />
-                        <input id="submit" type="submit" class="button" value="{{ item }}"/>
-                    </form>
+            {% for item in folder_list %}
+            
+                <form class="column" action="{% url 'point_mutation:folder_upload' %}" method="POST">
+                    <input type="file" name="folderPath" />
+                    <input type="hidden" name="item" value={{ item }} />
+                    <input id="submit" type="submit" class="button" value="{{ item }}"/>
+                </form>
 
-                {% endfor %}
-            </div>
-        
-        {% else %}
-            <div style="text-align:center">
-                <h2>Upload folder to {{ folder_path }} to select for viewing.</h2>
-                <button type="button" value="Upload" href="{% url 'point_mutation:upload_folder' %}">Upload</button>
-            </div>
-        {% endif %}
-        </div> 
-    </body>
+            {% endfor %}
+        </div>
+    
+    {% else %}
+        <div style="text-align:center">
+            <h2>Upload folder to {{ folder_path }} to select for viewing.</h2>
+            <button type="button" value="Upload" href="{% url 'point_mutation:upload_folder' %}">Upload</button>
+        </div>
+    {% endif %}
+    </div> 
+</body>
 </html>
 
 <style>
-    .button {
-        background-color: #4CAF50; /* Green */
-        border: none;
-        color: white;
-        padding: 15px 32px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-    }
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
 
-    .container {
-        padding-top: 50px;
-    }
+.container {
+    padding-top: 50px;
+}
 </style>

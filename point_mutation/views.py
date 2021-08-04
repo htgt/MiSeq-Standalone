@@ -80,6 +80,10 @@ def point_mutation_upload(request):
 
         return point_mutation_view(request, file_path)
 
+@api_view(['GET'])
+def point_mutation_upload_folder(request):
+    return render(request, 'point_mutation_upload_folder.dj.html')
+
 def point_mutation_summary(file_path):
     
     if not file_path:

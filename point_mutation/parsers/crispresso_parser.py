@@ -20,9 +20,8 @@ class CrispressoParser(ParserInterface):
 
         return self.chunkify_files(file_path, summary_dict)
 
-    def extract_well_information(self, dirname, summary_dict) -> dict:
+    def extract_well_information(self, dirname, summary_dict):
         """Overrides ParserInterface.extract_well_information()"""
-
 
         file_name = os.path.basename(dirname)
 
@@ -51,11 +50,20 @@ class CrispressoParser(ParserInterface):
         #        return {"name_" + well_name : well_name}
 
     def yield_well_info(self, dirname, exp):
-        """Returns a generator object that contains the well information."""
-        
-        subdirs = [x[0] for x in os.walk(dirname)]                                                                            
+        """Returns a generator object that contains the well information."""        
+        subdirs = [x[0] for x in os.walk(dirname)]
+        print('subdirs: ')
+        print(subdirs)
         for subdir in subdirs:
-            files = os.walk(subdir).__next__()[2]
+            print('subdir: ')
+            print(subdir)
+            files = None
+            try:
+                files = os.walk(subdir).__next__()[2]
+            except StopIteration:
+                pass
+            print('files: ')
+            print(files)
             if (len(files) > 0):
                 for file in files:
                     method = self.check_file(file)
@@ -145,7 +153,6 @@ class CrispressoParser(ParserInterface):
         return data
 
     def generate_overview(self, array, data):
-
         for well_dict in array:
             if well_dict is None:
                 continue
