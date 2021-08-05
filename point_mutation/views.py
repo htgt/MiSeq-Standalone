@@ -86,15 +86,6 @@ def point_mutation_summary(file_path):
         file_path = '/home/ubuntu/dev/miseq-standalone/testFiles/Miseq_093/'
 
     parser = CrispressoParser()
-
-    #if zipfile.is_zipfile(uploaded_file_path):
-    #    with zipfile.ZipFile.open(uploaded_file_path, 'r|*') as zip_file:
-    #        extracted_file_names = zip_file.namelist()
-    #elif tarfile.is_tarfile(uploaded_file_path):
-    #    with tarfile.open(uploaded_file_path, 'r|*') as tar_file:
-    #        parser.global_threshold = 1000
-    #        parser.threshold_percent = 5
-    #        parser.load_directory(tar_file, uploaded_file_path)
     
     data = {
         'summary': {

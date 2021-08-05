@@ -440,7 +440,11 @@ $(document).ready(function() {
     });
     console.log(exps);
     var indels = '{{ indelStats }}';
+    console.log('indels: ')
+    console.log(indels)
     indels = jsonify(indels);
+    console.log('jsonified indels: ')
+    console.log(indels)
 
     for (var expIndex = 0; expIndex < exps.length; expIndex++) {
         var selection = exps[expIndex];
@@ -493,7 +497,7 @@ $('#styles').change(function() {
 });
 
 function jsonify(raw) {
-    return JSON.parse(raw.replace(/&quot;/g,'"'));
+    return JSON.parse(raw.replace(/&#x27;/g,'"'));
 }
 
 function toggleModeOpacity() {
