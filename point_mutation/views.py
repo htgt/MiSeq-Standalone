@@ -72,11 +72,7 @@ def point_mutation_allele(request, miseq, oligo_index, exp):
 def point_mutation_upload(request):
     if request.method == 'POST':
 
-        print("request recieved")
-
         file_path = request.POST['folderPath'] + request.POST['item'] + '/'
-
-        print(file_path)
 
         return point_mutation_view(request, file_path)
 

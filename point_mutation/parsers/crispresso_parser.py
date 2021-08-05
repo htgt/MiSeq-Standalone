@@ -52,18 +52,12 @@ class CrispressoParser(ParserInterface):
     def yield_well_info(self, dirname, exp):
         """Returns a generator object that contains the well information."""        
         subdirs = [x[0] for x in os.walk(dirname)]
-        print('subdirs: ')
-        print(subdirs)
         for subdir in subdirs:
-            print('subdir: ')
-            print(subdir)
             files = None
             try:
                 files = os.walk(subdir).__next__()[2]
             except StopIteration:
                 pass
-            print('files: ')
-            print(files)
             if (len(files) > 0):
                 for file in files:
                     method = self.check_file(file)
