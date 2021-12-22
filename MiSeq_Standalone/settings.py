@@ -29,6 +29,9 @@ ALLOWED_HOSTS = ["172.27.18.130", "localhost", "127.0.0.1", "*"]
 
 
 # Application definition
+import sys
+
+sys.modules['fontawesome_free'] = __import__('fontawesome-free')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -40,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'point_mutation.apps.PointMutationInputConfig',
     'corsheaders',
+    'fontawesome_free'
 ]
 
 MIDDLEWARE = [

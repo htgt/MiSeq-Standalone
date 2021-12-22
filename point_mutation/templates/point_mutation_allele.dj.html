@@ -294,7 +294,7 @@ input:checked + .slider:before {
     {% endif %}
 
     {% for experiment in experiments %}
-        {% if selection != 0 or experiment == selection %}
+        {% if selection == 'All' or experiment == selection %}
             {% with exp_gene=overview_data|get_gene:experiment %}
                 {% if exp_gene %}
                     <h2>Experiment: {{ experiment }}, Gene: {{ exp_gene }}</h2>
@@ -425,6 +425,7 @@ input:checked + .slider:before {
 <script type="text/javascript" charset="utf-8">
 var exps = [];
 var rowQualityData = {};
+var tempIndels = '{{ indelStats }}'
 
 
 $(document).ready(function() {
@@ -438,13 +439,8 @@ $(document).ready(function() {
             }
         });
     });
-    console.log(exps);
     var indels = '{{ indelStats }}';
-    console.log('indels: ')
-    console.log(indels)
     indels = jsonify(indels);
-    console.log('jsonified indels: ')
-    console.log(indels)
 
     for (var expIndex = 0; expIndex < exps.length; expIndex++) {
         var selection = exps[expIndex];
@@ -516,12 +512,12 @@ function toggleModeOpacity() {
 }
 
 function displayIndels(exp) {
-    var expTable = document.getElementById("table" + exp.id);
+    var expTable = document.getElementById("table" + exp);
     if (expTable == null) {
-        getSummary(exp.id);
+        getSummary(exp);
     }
     else {
-        toggleTable("table" + exp.id);
+        toggleTable("table" + exp);
     }
 }
 
@@ -531,17 +527,19 @@ function toggleTable(table) {
 }
 
 function buildImages(selection, data) {
-
+    console.log('building images.')
+    console.log('data: ', data)
     var percentage = 0;
 
     var margin = {top: 40, right: 20, bottom: 70, left: 90},
         width = window.innerWidth*0.56,
         height = window.innerHeight*0.6;
     
-
+    console.log('width: ', width)
     var total_reads = 0;
     var max_ticks = width/21;
     var ticksArray= [];
+    console.log(data[1].indel)
     var min = data[1].indel;
     var max = data[data.length-2].indel;
     if (data.length <= max_ticks) {
@@ -559,7 +557,7 @@ function buildImages(selection, data) {
         ticksArray.push(data[quart*3].indel);
         ticksArray.push(max);    
     }
-
+    console.log('looping over data.length.')
     for (var i = 0; i < data.length; i++) {
         total_reads += data[i].frequency;
     }
@@ -678,6 +676,8 @@ function buildImages(selection, data) {
         d.frequency = +d.frequency;
     return d;
     }
+
+    console.log('finished building images.')
 }
 
 function getImages(letter, chart, div) {
@@ -707,20 +707,27 @@ function getImages(letter, chart, div) {
     });
 }
 
+
+
 function getSummary(letter, downloadFlag, limitFlag) {
     var index = '{{ oligoIndex }}';
     var res; 
     if (downloadFlag == null) {
+        var url_mask = "{% url 'point_mutation:summary' miseq=miseq oligo_index='oligo_placeholder' exp='exp_placeholder' limit='limit_placeholder' %}"
+
+        //url_mask = url_mask.replace(/oligo_placeholder/, index)
+        //url_mask = url_mask.replace(/limit_placeholder/, 10)
+        //url_mask = url_mask.replace(/exp_placeholder/, letter)
         //Preview for tables
         $.ajax({
-            url: '{{ baseUrl }}/api/point_mutation_summary/',
+            url: "{% url 'point_mutation:summary_test' %}",
             type: "GET",
-            contentType: 'text/plain',
+            //contentType: 'text/plain',
             data: {
-                miseq: '{{ miseq }}',
-                oligo: index,
-                exp: letter,
-                limit: 10,
+                "miseq": '{{ miseq }}',
+                "oligo_index": index,
+                "exp": letter,
+                "limit": 10,
             },
             success: function(result){
                 createTable(letter, result);
@@ -733,14 +740,24 @@ function getSummary(letter, downloadFlag, limitFlag) {
     } else {
         //Download summary
         var data;
+        var url_mask;
         if (limitFlag == null) {
             //All rows
+            var url_mask = "{% url 'point_mutation:summary' miseq=miseq oligo_index='oligo_placeholder' exp='exp_placeholder' limit='All' %}"
+
+            url_mask = url_mask.replace(/oligo_placeholder/, index)
+            url_mask = url_mask.replace(/exp_placeholder/, letter)
             data = {
                 miseq: '{{ miseq }}',
                 oligo: index,
                 exp: letter, }
         } else {
             //10 rows
+            var url_mask = "{% url 'point_mutation:summary' miseq=miseq oligo_index='oligo_placeholder' exp='exp_placeholder' limit='limit_placeholder' %}"
+
+            url_mask = url_mask.replace(/oligo_placeholder/, index)
+            url_mask = url_mask.replace(/limit_placeholder/, 10)
+            url_mask = url_mask.replace(/exp_placeholder/, letter)
             data = {
                 miseq: '{{ miseq }}',
                 oligo: index,
@@ -748,10 +765,9 @@ function getSummary(letter, downloadFlag, limitFlag) {
                 limit: 10, }
         }
         $.ajax({
-            url: '{{ baseUrl }}/api/point_mutation_summary/',
+            url: url_mask,
             type: "GET",
             contentType: 'text/plain',
-            data: data,
             success: function(result){
                 $("#response_alert").hide();
                 console.log(result);
@@ -789,7 +805,7 @@ function getTargets(letter) {
 }
 
 function createTable(exp, result) {
-    result = JSON.parse(result);
+    //result = JSON.parse(result);
     if (result.crispr) {
         $('#crisprSeq' + exp).text(result.crispr.crispr);
     } else {
@@ -798,7 +814,8 @@ function createTable(exp, result) {
     $('#crisprHeader' + exp).show();
 
     var rows = result.data.split("\n");
-    var headers = rows.shift().split(",");
+    var headers = rows.shift().split("\t");
+    console.log('headers', headers)
     var displayHeaders = ['Aligned_Sequence','NHEJ','UNMODIFIED','HDR','n_deleted','n_inserted','n_mutated','#Reads','%Reads'];
 
     var rowObjs = [];
@@ -865,9 +882,9 @@ function createTable(exp, result) {
 }
 
 function validateRow(row) {
-    var quoteQualityRegex = /([ACTG-]+,[ACTG-]+,)([\x21-\x4B]+)((,(True|False|\d+\.?\d?)){7},\d+\.?\d*$)/gm;
+    var quoteQualityRegex = /([ACTG-]+\t[ACTG-]+\t)([\x21-\x4B]+)((\t(True|False|\d+\.?\d?)){7}\t\d+\.?\d*$)/gm;
     //Bind on to the last 7 commas since those columns are constant.
-    var splitIgnoreQuoted = /("[^"]*")|[^,]+/g;
+    var splitIgnoreQuoted = /("[^"]*")|[^\t]+/g;
     //Phred Qualities use , as a value. Quote the quality string then split the row
     var rowResult = row.replace(quoteQualityRegex, `$1"$2"$3`);
     var rowData = rowResult.match(splitIgnoreQuoted);
@@ -875,7 +892,7 @@ function validateRow(row) {
 }
 
 function showAll() {
-    window.location.href = '{{ baseUrl }}/point_mutation_allele/' + encodeURI('?oligoIndex={{ oligoIndex }}&miseq={{ miseq }}'); 
+    window.location.href = "{% url 'point_mutation:allele' miseq=miseq oligo_index=oligoIndex exp='All' %}";
 }
 
 function overview() {

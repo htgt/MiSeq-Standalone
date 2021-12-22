@@ -27,3 +27,5 @@ djangorestframework
 pymemcache
 
 django-cors-headers
+
+fontawesome-free==5.15

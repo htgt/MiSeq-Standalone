@@ -4,6 +4,7 @@ import os
 import re
 
 from .parser_interface import ParserInterface
+from point_mutation import utils
 
 class CrispressoParser(ParserInterface):
     """Extract data from CRISPResso tar file."""
@@ -12,7 +13,7 @@ class CrispressoParser(ParserInterface):
     threshold_percent = 0
 
     def load_directory(self, file_path) -> dict:
-        """Overrides ParserInterface.load_tar_file()"""
+        """Overrides ParserInterface.load_directory()"""
         if not file_path:
             file_path = self.DEFAULT_DIR
 
@@ -31,6 +32,7 @@ class CrispressoParser(ParserInterface):
         file_name_info = self.get_file_name_info(file_name)
         exp = file_name_info[1]
         gene = summary_dict[exp]['Gene'].split('_')[0]
+        crispr = self.get_crispr_data(exp, summary_dict[exp]['Crispr'], summary_dict[exp]['Amplicon'])
 
         well_info = self.get_well_info(dirname, exp)
 
@@ -38,7 +40,8 @@ class CrispressoParser(ParserInterface):
             well_info.update({ 
                             'experiments' : [ exp ] ,
                             'gene' : [ gene ],
-                            'overview_data' : [ exp , gene ]
+                            'overview_data' : [ exp , gene ],
+                            'crispr' : crispr
                         })
         
         return { file_name_info[0] : well_info}
@@ -143,9 +146,11 @@ class CrispressoParser(ParserInterface):
         self.generate_overview(array, data)
         self.generate_summary(array, data)
 
-
         return data
 
+
+
+        
     def generate_overview(self, array, data):
         for well_dict in array:
             if well_dict is None:
@@ -205,7 +210,8 @@ class CrispressoParser(ParserInterface):
             'percentages' : self.update_dict,
             'experiments' : self.append_list,
             'gene' : self.append_list,
-            'overview_data' : self.append_list
+            'overview_data' : self.append_list,
+            'crispr' : self.update_dict
         }
 
         for well_dict in array:
@@ -253,9 +259,11 @@ class CrispressoParser(ParserInterface):
                     'total': processed_lines[6].split(':')[2]
                 }
             }
-            return {'percentages': data}
+            return { 'percentages': data }
         except ValueError as exc:
             raise ValueError("Something went wrong when saving quant data to an object") from exc
+
+    
 
     def get_allele_data(self, io_string, exp) -> dict:
         """Gets the allele data from the alleles frequency table"""
@@ -302,4 +310,19 @@ class CrispressoParser(ParserInterface):
 
 
         return [match.group(1), match.group(2)]
+
+    def get_crispr_data(self, exp, crispr, amplicon):
+
+        rev_crispr = utils.reverse_complement(crispr)
+
+        positon = utils.get_crispr_position(crispr, rev_crispr, amplicon)
+
+        return {
+            exp : {
+                'crispr': crispr,
+                'rev_crispr': rev_crispr,
+                'position': positon
+            }
+        }
+    
     

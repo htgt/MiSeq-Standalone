@@ -38,15 +38,16 @@
                 <h2>Select Folder</h2>    
             </div>
 
-            <div class="row">
+            <div class="row grid-container">
 
                 {% for item in folder_list %}
-                
-                    <form class="column" action="{% url 'point_mutation:upload' %}" method="POST">
-                        <input type="hidden" name="folderPath" value={{ folder_path }} />
-                        <input type="hidden" name="item" value={{ item }} />
-                        <input id="submit" type="submit" class="button" value="{{ item }}"/>
-                    </form>
+                    <div class="grid-item">
+                        <form class="column" action="{% url 'point_mutation:upload' %}" method="POST">
+                            <input type="hidden" name="folderPath" value={{ folder_path }} />
+                            <input type="hidden" name="item" value={{ item }} />
+                            <input id="submit" type="submit" class="button" value="{{ item }}"/>
+                        </form>
+                    </div>
 
                 {% endfor %}
             </div>
@@ -75,5 +76,34 @@
 
     .container {
         padding-top: 50px;
+    }
+
+    .grid-container {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+    }
+
+    .grid-item {
+        border: none;
+        padding: 5px;
+        display: grid;
+        place-items: center;
+    }
+
+    .row::before {
+        content: none;
+    }
+
+    .row::after {
+        content: none;
+    }
+
+    .container::before {
+        content: none;
+    }
+
+    .container::after {
+        content: none;
     }
 </style>

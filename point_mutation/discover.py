@@ -7,7 +7,7 @@ class DiscoverFolders():
         try:
             folders = os.listdir(folder_path)
         except FileNotFoundError:
-            os.mkdir(folder_path)
+            os.makedirs(folder_path)
             folders = os.listdir(folder_path)
 
         data = {
