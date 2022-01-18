@@ -3,10 +3,10 @@ from django.test import SimpleTestCase
 
 from unittest.mock import MagicMock, patch
 
-from point_mutation.parsers.crispresso_parser import CrispressoParser
+from point_mutation.parsers.crispresso_2_parser import Crispresso2Parser
 
 
-class CrispressoParserTestCase(SimpleTestCase):
+class Crispresso2ParserTestCase(SimpleTestCase):
     data = None
     parser = None
     patchers = {}
@@ -61,11 +61,11 @@ class CrispressoParserTestCase(SimpleTestCase):
                         'mix': '0', 
                         'total': '8582'
                     }
-                },
-                    'details' : {    
+                }, 
+                'details': {
                     'KMT2A_1': {
-                        'class': 'Not Called',
-                        'frameshift' : 0,
+                        'class': 'Not Called', 
+                        'frameshift': 0, 
                         'status': 'Plated'
                     }
                 }
@@ -215,9 +215,9 @@ class CrispressoParserTestCase(SimpleTestCase):
                     'KMT2A_1': {
                         'hdr': '0',
                         'mix': '0',
-                        'nhej': '294',
-                        'total': '7429',
-                        'wt': '7135'
+                        'nhej': '515',
+                        'total': '7428',
+                        'wt': '6913'
                     }
                 }
             },
@@ -225,38 +225,41 @@ class CrispressoParserTestCase(SimpleTestCase):
             'file_name_info': ['1', 'KMT2A_1'],
             'exp': 'KMT2A_1',
             'allele_file_name' : 'Alleles_frequency_table.txt',
-            'quant_file_name': 'Quantification_of_editing_frequency.txt',
+            'quant_file_name': 'CRISPResso_quantification_of_editing_frequency.txt',
             'key_percentages' : 'percentages',
-            'quant_io_string_data' : io.StringIO('Quantification of editing frequency:\n\
-	- Unmodified:7135 reads\n\
-	- NHEJ:294 reads (3 reads with insertions, 28 reads with deletions, 272 reads with substitutions)\n\
-	- HDR:0 reads (0 reads with insertions, 0 reads with deletions, 0 reads with substitutions)\n\
-	- Mixed HDR-NHEJ:0 reads (0 reads with insertions, 0 reads with deletions, 0 reads with substitutions)\n\
-\n\
-Total Aligned:7429 reads '),
-            'test_lines' : io.StringIO('Aligned_Sequence	Reference_Sequence	Phred_Quality	NHEJ	UNMODIFIED	HDR	n_deleted	n_inserted	n_mutated	#Reads	%Reads\n\
-GAAAGTCCGGAAAGACAAGGAAGGAACACCTCCACTTACAAAAGAAGATAAGACAGTTGTCAGACAAAGCCCTCGAAGGATTAAGCCAGTTAGGATTATTCCTTCTTCAAAAAGGACAGATGCAACCATTGCTAAGCAACTCTTACAGAGGGCAAAAAAGGGGGCTCAAAAGAAAATTGAAAAAGAAGCAGCTCAGCTGCAGGGAAGAAAGGTGAAGACACAGGTCAAAAATATTCGACAGTTCATCATGCCT	GAAAGTCCGGAAAGACAAGGAAGGAACACCTCCACTTACAAAAGAAGATAAGACAGTTGTCAGACAAAGCCCTCGAAGGATTAAGCCAGTTAGGATTATTCCTTCTTCAAAAAGGACAGATGCAACCATTGCTAAGCAACTCTTACAGAGGGCAAAAAAGGGGGCTCAAAAGAAAATTGAAAAAGAAGCAGCTCAGCTGCAGGGAAGAAAGGTGAAGACACAGGTCAAAAATATTCGACAGTTCATCATGCCT	BCBBCEEECCCCFFFFFFFFFFGFGGGGGFGGGGGGGGGGGGGGFGGGGGGGGGGGGGGGGGGGGGGGGGGGGGFFGFFGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGFFGGGGFFFFGGFFGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGFFGGGGGFFFFFFFFFFEEEEEEEBBBBB	False	True	False	0.0	0.0	0	6002	80.7914927984924\n\
-GAAAGTCCGGAAAGACAAGGAAGGAACACCTCCACTTACAAAAGAAGATAAGACAGTTGTCAGACAAAGCCCTCGAAGGATTAAGCCAGTTAGGATTATTCCTTCTTCAAAAAGGACAGATGCAACCATTGCTAAGCAACTCTTACAGAGGGC-AAAAAGGGGGCTCAAAAGAAAATTGAAAAAGAAGCAGCTCAGCTGCAGGGAAGAAAGGTGAAGACACAGGTCAAAAATATTCGACAGTTCATCATGCCT	GAAAGTCCGGAAAGACAAGGAAGGAACACCTCCACTTACAAAAGAAGATAAGACAGTTGTCAGACAAAGCCCTCGAAGGATTAAGCCAGTTAGGATTATTCCTTCTTCAAAAAGGACAGATGCAACCATTGCTAAGCAACTCTTACAGAGGGCAAAAAAGGGGGCTCAAAAGAAAATTGAAAAAGAAGCAGCTCAGCTGCAGGGAAGAAAGGTGAAGACACAGGTCAAAAATATTCGACAGTTCATCATGCCT	BCCCCEEFCCCCFFFGGGGGFGGFGGGHGGGGGGGGGGGHGGGGFGGGGGGGGGGGGGGGGGGGGGGGGGHGGGFFGGFGGGGGGGGGGGGGGGGGGGGGGGGGGGGGHGGGHGGHGHGHGGGGHHGGGGHGGGHHHGGHGHHHHHHHGHGGFGGGGFFFFGGGFGHGGHHHGGHGGHHHGHGGGGGHGGGHGGGGGGGGGHHGGGHHHGHGGGGGGGGGGGGFFHGGGGGFFFFFFGGGEEFFEFEBBBBB	False	True	False	0.0	0.0	0	66	0.8884102840220757\n\
-GAAAGTCCGGAAAGACAAGGAAGGAACACCTCCACTTACAAAAGAAGATAAGACAGTTGTCAGACAAAGCCCTCGAAGGATTAAGCCAGTTAGGATTATTCCTTCTTCAAAAAGGACAGATGCAACCATTGCTAAGCAACTCTTACAGAGGGCAAAAAAGGGGGCTCAAAAGAAAATTGAAAAAGAAGCAGCTCAGCTGCAGGGAAGAAAGGTGAAGACACAGGTAAAAAATATTCGACAGTTCATCATGCCT	GAAAGTCCGGAAAGACAAGGAAGGAACACCTCCACTTACAAAAGAAGATAAGACAGTTGTCAGACAAAGCCCTCGAAGGATTAAGCCAGTTAGGATTATTCCTTCTTCAAAAAGGACAGATGCAACCATTGCTAAGCAACTCTTACAGAGGGCAAAAAAGGGGGCTCAAAAGAAAATTGAAAAAGAAGCAGCTCAGCTGCAGGGAAGAAAGGTGAAGACACAGGTCAAAAATATTCGACAGTTCATCATGCCT	BCBBBEEEBCCCFFEFFFFFFFFFFGFGFFGGGGGGGGGGGFGGFGFFGGGGGGGGGGGFFGGGGGGFGGGGGGFFGFFGGGGGGFGFGGGGGGFGGGGGFGGGGGGGHGGHGGGHGHGGHHGGGGGGGGGGGGGGGHHGGGGHGHGGGGGGFFGGHGFFFFHGFFGGGGGGGGGGGGHHGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGHFGGGGHFGFFFFFFGFEFFEEEEBBBBB	False	True	False	0.0	0.0	0	25	0.33651904697805896').read().split('\n'),
-            'lines_above_threshold' : ['GAAAGTCCGGAAAGACAAGGAAGGAACACCTCCACTTACAAAAGAAGATAAGACAGTTGTCAGACAAAGCCCTCGAAGGATTAAGCCAGTTAGGATTATTCCTTCTTCAAAAAGGACAGATGCAACCATTGCTAAGCAACTCTTACAGAGGGCAAAAAAGGGGGCTCAAAAGAAAATTGAAAAAGAAGCAGCTCAGCTGCAGGGAAGAAAGGTGAAGACACAGGTCAAAAATATTCGACAGTTCATCATGCCT	GAAAGTCCGGAAAGACAAGGAAGGAACACCTCCACTTACAAAAGAAGATAAGACAGTTGTCAGACAAAGCCCTCGAAGGATTAAGCCAGTTAGGATTATTCCTTCTTCAAAAAGGACAGATGCAACCATTGCTAAGCAACTCTTACAGAGGGCAAAAAAGGGGGCTCAAAAGAAAATTGAAAAAGAAGCAGCTCAGCTGCAGGGAAGAAAGGTGAAGACACAGGTCAAAAATATTCGACAGTTCATCATGCCT	BCBBCEEECCCCFFFFFFFFFFGFGGGGGFGGGGGGGGGGGGGGFGGGGGGGGGGGGGGGGGGGGGGGGGGGGGFFGFFGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGFFGGGGFFFFGGFFGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGFFGGGGGFFFFFFFFFFEEEEEEEBBBBB	False	True	False	0.0	0.0	0	6002	80.7914927984924']
+            'quant_io_string_data' : io.StringIO('Amplicon	Unmodified%	Modified%	Reads_in_input	Reads_aligned_all_amplicons	Reads_aligned	Unmodified	Modified	Discarded	Insertions	Deletions	Substitutions	Only Insertions	Only Deletions	Only Substitutions	Insertions and Deletions	Insertions and Substitutions	Deletions and Substitutions	Insertions Deletions and Substitutions\n\
+Reference	93.06677437	6.93322563	32138	7428	7428	6913	515	0	0	29	491	0	24	486	0	0	5	0'),
+            'test_lines' : io.StringIO('Aligned_Sequence	Reference_Sequence	Reference_Name	Read_Status	n_deleted	n_inserted	n_mutated	#Reads	%Reads\n\
+GAAAGTCCGGAAAGACAAGGAAGGAACACCTCCACTTACAAAAGAAGATAAGACAGTTGTCAGACAAAGCCCTCGAAGGATTAAGCCAGTTAGGATTATTCCTTCTTCAAAAAGGACAGATGCAACCATTGCTAAGCAACTCTTACAGAGGGCAAAAAAGGGGGCTCAAAAGAAAATTGAAAAAGAAGCAGCTCAGCTGCAGGGAAGAAAGGTGAAGACACAGGTCAAAAATATTCGACAGTTCATCATGCCT	GAAAGTCCGGAAAGACAAGGAAGGAACACCTCCACTTACAAAAGAAGATAAGACAGTTGTCAGACAAAGCCCTCGAAGGATTAAGCCAGTTAGGATTATTCCTTCTTCAAAAAGGACAGATGCAACCATTGCTAAGCAACTCTTACAGAGGGCAAAAAAGGGGGCTCAAAAGAAAATTGAAAAAGAAGCAGCTCAGCTGCAGGGAAGAAAGGTGAAGACACAGGTCAAAAATATTCGACAGTTCATCATGCCT	Reference	UNMODIFIED	0	0	0	6002	80.80236941303177\n\
+GAAAGTCCGGAAAGACAAGGAAGGAACACCTCCACTTACAAAAGAAGATAAGACAGTTGTCAGACAAAGCCCTCGAAGGATTAAGCCAGTTAGGATTATTCCTTCTTCAAAAAGGACAGATGCAACCATTGCTAAGCAACTCTTACAGAGGGCAAAAA-GGGGGCTCAAAAGAAAATTGAAAAAGAAGCAGCTCAGCTGCAGGGAAGAAAGGTGAAGACACAGGTCAAAAATATTCGACAGTTCATCATGCCT	GAAAGTCCGGAAAGACAAGGAAGGAACACCTCCACTTACAAAAGAAGATAAGACAGTTGTCAGACAAAGCCCTCGAAGGATTAAGCCAGTTAGGATTATTCCTTCTTCAAAAAGGACAGATGCAACCATTGCTAAGCAACTCTTACAGAGGGCAAAAAAGGGGGCTCAAAAGAAAATTGAAAAAGAAGCAGCTCAGCTGCAGGGAAGAAAGGTGAAGACACAGGTCAAAAATATTCGACAGTTCATCATGCCT	Reference	UNMODIFIED	0	0	0	66	0.8885298869143781\n\
+GAAAGTCCGGAAAGACAAGGAAGGAACACCTCCACTTACAAAAGAAGATAAGACAGTTGTCAGACAAAGCCCTCGAAGGATTAAGCCAGTTAGGATTATTCCTTCTTCAAAAAGGACAGATGCAACCATTGCTAAGCAACTCTTACAGAGGGCAAAAAAGGGGGCTCAAAAGAAAATTGAAAAAGAAGCAGCTCAGCTGCAGGGAAGAAAGGTGAAGACACAGGTAAAAAATATTCGACAGTTCATCATGCCT	GAAAGTCCGGAAAGACAAGGAAGGAACACCTCCACTTACAAAAGAAGATAAGACAGTTGTCAGACAAAGCCCTCGAAGGATTAAGCCAGTTAGGATTATTCCTTCTTCAAAAAGGACAGATGCAACCATTGCTAAGCAACTCTTACAGAGGGCAAAAAAGGGGGCTCAAAAGAAAATTGAAAAAGAAGCAGCTCAGCTGCAGGGAAGAAAGGTGAAGACACAGGTCAAAAATATTCGACAGTTCATCATGCCT	Reference	UNMODIFIED	0	0	0	25	0.33656435110393107').read().split('\n'),
+            'lines_above_threshold' : ['GAAAGTCCGGAAAGACAAGGAAGGAACACCTCCACTTACAAAAGAAGATAAGACAGTTGTCAGACAAAGCCCTCGAAGGATTAAGCCAGTTAGGATTATTCCTTCTTCAAAAAGGACAGATGCAACCATTGCTAAGCAACTCTTACAGAGGGCAAAAAAGGGGGCTCAAAAGAAAATTGAAAAAGAAGCAGCTCAGCTGCAGGGAAGAAAGGTGAAGACACAGGTCAAAAATATTCGACAGTTCATCATGCCT	GAAAGTCCGGAAAGACAAGGAAGGAACACCTCCACTTACAAAAGAAGATAAGACAGTTGTCAGACAAAGCCCTCGAAGGATTAAGCCAGTTAGGATTATTCCTTCTTCAAAAAGGACAGATGCAACCATTGCTAAGCAACTCTTACAGAGGGCAAAAAAGGGGGCTCAAAAGAAAATTGAAAAAGAAGCAGCTCAGCTGCAGGGAAGAAAGGTGAAGACACAGGTCAAAAATATTCGACAGTTCATCATGCCT	Reference	UNMODIFIED	0	0	0	6002	80.80236941303177']
         }
 
-        self.parser = CrispressoParser()
+#        io.StringIO('Quantification of editing frequency:\n\
+#	- Unmodified:7135 reads\n\
+#	- NHEJ:294 reads (3 reads with insertions, 28 reads with deletions, 272 reads with substitutions)\n\
+#	- HDR:0 reads (0 reads with insertions, 0 reads with deletions, 0 reads with substitutions)\n\
+#	- Mixed HDR-NHEJ:0 reads (0 reads with insertions, 0 reads with deletions, 0 reads with substitutions)\n\
+#\n\
+#Total Aligned:7429 reads ')
+
+        self.parser = Crispresso2Parser()
 
         # extract summary data
         extract_summary_data_config = { 'return_value': self.data['summary_data']}
-        self.patchers['extract_summary_data'] = patch('point_mutation.parsers.crispresso_parser.CrispressoParser.extract_summary_data', **extract_summary_data_config)
+        self.patchers['extract_summary_data'] = patch('point_mutation.parsers.crispresso_2_parser.Crispresso2Parser.extract_summary_data', **extract_summary_data_config)
 
         # chunkify files
-        self.patchers['chunkify_files'] = patch('point_mutation.parsers.crispresso_parser.CrispressoParser.chunkify_files')
+        self.patchers['chunkify_files'] = patch('point_mutation.parsers.crispresso_2_parser.Crispresso2Parser.chunkify_files')
 
         # get_file_name_info
         get_file_name_info_config = { 'return_value': self.data['file_name_info']}
-        self.patchers['get_file_name_info'] = patch('point_mutation.parsers.crispresso_parser.CrispressoParser.get_file_name_info', **get_file_name_info_config)
+        self.patchers['get_file_name_info'] = patch('point_mutation.parsers.crispresso_2_parser.Crispresso2Parser.get_file_name_info', **get_file_name_info_config)
 
         # get_well_info
         get_well_info_config = { 'return_value': self.data['well_info']}
-        self.patchers['get_well_info'] = patch('point_mutation.parsers.crispresso_parser.CrispressoParser.get_well_info', **get_well_info_config)
+        self.patchers['get_well_info'] = patch('point_mutation.parsers.crispresso_2_parser.Crispresso2Parser.get_well_info', **get_well_info_config)
 
         # walk
         walk_mock = MagicMock(side_effect=lambda *a, **kw: iter([('/dirpath', ['dirname',], ['filename',]), ('/dir/path', ['dirname2',], ['filename2',]),]))
@@ -266,32 +269,60 @@ GAAAGTCCGGAAAGACAAGGAAGGAACACCTCCACTTACAAAAGAAGATAAGACAGTTGTCAGACAAAGCCCTCGAAGGA
 
         # check_file
         check_file_config = { 'return_value': self.mocked_check_file_return_method }
-        self.patchers['check_file'] = patch('point_mutation.parsers.crispresso_parser.CrispressoParser.check_file', **check_file_config)
+        self.patchers['check_file'] = patch('point_mutation.parsers.crispresso_2_parser.Crispresso2Parser.check_file', **check_file_config)
 
         # open
         open_mock = MagicMock(side_effect=lambda *a, **kw: 'io string value')
         self.patchers['open'] = patch('builtins.open', new=open_mock)
 
+        # listdir
+        listdir_mock = MagicMock(side_effect=lambda *a, **kw: ['S1_expKMT2A_1'])
+        self.patchers['listdir'] = patch('os.listdir', new=listdir_mock)
+
+        # glob
+        glob_mock = MagicMock(side_effect=lambda *a, **kw: '../../testFiles/S1_expKMT2A_1')
+        self.patchers['glob'] = patch('glob.glob', new=glob_mock)
+
+        # json.load
+        json_load_mock = MagicMock(side_effect=lambda *a, **kw: {"running_info": {
+                "args": {
+                    "value": {
+                        "amplicon_seq":"GAAAGTCCGGAAAGACAAGGAAGgaacacctccacttacaaaagaagataagacagttgtcagacaaagccctcgaaggattaagccagttaggattattccttcttcaaaaaggacagatgcaaccattgctaagcaactcttacagagggcaaaaaagggggctcaaaagaaaattgaaaaagaagcagctcagctgcagggaagaaaggtgaagacacaggtcaaaaATATTCGACAGTTCATCATGCCT",
+                        "guide_seq":"CTCGAAGGATTAAGCCAGTT"
+                    }
+                }
+            }
+        })
+        self.patchers['json_load'] = patch('json.load', new=json_load_mock)
+
         # yield_well_info
         yield_well_info_config = { 'return_value' : [self.data['yield_well_info_data']]}
-        self.patchers['yield_well_info'] = patch('point_mutation.parsers.crispresso_parser.CrispressoParser.yield_well_info', **yield_well_info_config)
+        self.patchers['yield_well_info'] = patch('point_mutation.parsers.crispresso_2_parser.Crispresso2Parser.yield_well_info', **yield_well_info_config)
 
         # generate_overview
-        self.patchers['generate_overview'] = patch('point_mutation.parsers.crispresso_parser.CrispressoParser.generate_overview')
+        self.patchers['generate_overview'] = patch('point_mutation.parsers.crispresso_2_parser.Crispresso2Parser.generate_overview')
 
         # generate_summary
-        self.patchers['generate_summary'] = patch('point_mutation.parsers.crispresso_parser.CrispressoParser.generate_summary')
+        self.patchers['generate_summary'] = patch('point_mutation.parsers.crispresso_2_parser.Crispresso2Parser.generate_summary')
 
         # generate_efficiency
-        self.patchers['generate_efficiency'] = patch('point_mutation.parsers.crispresso_parser.CrispressoParser.generate_efficiency')
+        self.patchers['generate_efficiency'] = patch('point_mutation.parsers.crispresso_2_parser.Crispresso2Parser.generate_efficiency')
 
         # update_dict
-        self.patchers['update_dict'] = patch('point_mutation.parsers.crispresso_parser.CrispressoParser.update_dict')
+        self.patchers['update_dict'] = patch('point_mutation.parsers.crispresso_2_parser.Crispresso2Parser.update_dict')
 
         # append_list
-        self.patchers['append_list'] = patch('point_mutation.parsers.crispresso_parser.CrispressoParser.append_list')
+        self.patchers['append_list'] = patch('point_mutation.parsers.crispresso_2_parser.Crispresso2Parser.append_list')
         
+    def test_extract_summary_data_assert_successful(self):
+        patchers = ['listdir', 'glob', 'json_load']
+        self.start_patchers(patchers)
 
+        summary_dict = self.parser.extract_summary_data(self.data['file_path'])
+
+        self.assertEqual(summary_dict, self.data['summary_dict'])
+
+        self.stop_patchers(patchers)
 
     
     def test_load_directory_assert_successful(self):
@@ -357,7 +388,7 @@ GAAAGTCCGGAAAGACAAGGAAGGAACACCTCCACTTACAAAAGAAGATAAGACAGTTGTCAGACAAAGCCCTCGAAGGA
         patchers = ['yield_well_info']
         self.start_patchers(patchers)
 
-        dir_name = self.data['file_path'] + '/S1_expKMT2A_1'
+        dir_name = self.data['file_path'] + '/S1_expKMT2A_1_CRISPResso2'
 
         well_info = self.parser.get_well_info(dir_name, self.data['exp'])
 

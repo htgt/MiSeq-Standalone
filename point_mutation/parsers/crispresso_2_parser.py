@@ -2,11 +2,13 @@
 
 import os
 import re
+import json
+import glob
 
 from .parser_interface import ParserInterface
 from point_mutation import utils
 
-class CrispressoParser(ParserInterface):
+class Crispresso2Parser(ParserInterface):
     """Extract data from CRISPResso tar file."""
 
     global_threshold = 0
@@ -21,6 +23,29 @@ class CrispressoParser(ParserInterface):
 
         return self.chunkify_files(file_path, summary_dict)
 
+    def extract_summary_data(self, file_path) -> dict:
+        """Extracts the gene data from summary.csv"""
+        filename = "CRISPResso2_info.json"
+        
+        summary_dict = {}
+
+        for d in os.listdir(file_path):
+            exp = self.get_folder_details(d)
+            summary_dict.update({exp: {
+                'Experiment': exp,
+                'Gene': exp.split('_')[0]}})
+
+        for exp in summary_dict:
+            well_folder = glob.glob(file_path + '/.*_exp' + exp.key)[0]
+            crispresso_info = json.load(well_folder + '/' + filename)
+
+            summary_dict[exp.key].update({
+                'Crispr': crispresso_info['running_info']['args']['value']['guide_seq'],
+                'Amplicon': crispresso_info['running_info']['args']['value']['amplicon_seq']
+            })
+
+        return summary_dict
+    
     def extract_well_information(self, dirname, summary_dict):
         """Overrides ParserInterface.extract_well_information()"""
 
@@ -83,7 +108,7 @@ class CrispressoParser(ParserInterface):
         """Check which file has been opened, if no match discard."""
 
         alleles_freq_pattern = r'Alleles_frequency_table\.txt$'
-        quant_pattern = r'Quantification_of_editing_frequency\.txt$'
+        quant_pattern = r'CRISPResso_quantification_of_editing_frequency\.txt$'
 
         alleles_match = re.search(alleles_freq_pattern, filename)
         quant_match = re.search(quant_pattern, filename)
@@ -242,21 +267,16 @@ class CrispressoParser(ParserInterface):
 
         lines = io_string.read().split('\n')
 
-        processed_lines = list()
-
-        for line in lines:
-            processed_line = line.strip()
-            processed_line = processed_line.replace(" ", ":")
-            processed_lines.append(processed_line)
+        data_line = lines[1].split('\t')
 
         try:
             data = {
                 exp: {
-                    'wt': processed_lines[1].split(':')[2],
-                    'nhej': processed_lines[2].split(':')[2],
-                    'hdr': processed_lines[3].split(':')[2],
-                    'mix': processed_lines[4].split(':')[3],
-                    'total': processed_lines[6].split(':')[2]
+                    'wt': data_line[6],
+                    'nhej': data_line[7],
+                    'hdr': data_line[8],
+                    'mix': data_line[9],
+                    'total': data_line[5]
                 }
             }
             return { 'percentages': data }
@@ -284,9 +304,9 @@ class CrispressoParser(ParserInterface):
         next(iterlines)
 
         for line in iterlines:
-            if len(line.split('\t')) < 10:
+            if len(line.split('\t')) < 9:
                 continue
-            if float(line.split('\t')[9]) > float(self.threshold_percent):
+            if float(line.split('\t')[8]) > float(self.threshold_percent):
                 yield line
 
 
@@ -295,6 +315,11 @@ class CrispressoParser(ParserInterface):
 
 
         return [match.group(1), match.group(2)]
+    
+    def get_folder_details(self, folder_name):
+        match = re.search(".*_exp(.+$)", folder_name)
+
+        return match.group(1)
 
     def get_crispr_data(self, exp, crispr, amplicon):
 
