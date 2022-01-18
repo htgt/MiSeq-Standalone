@@ -35,11 +35,11 @@ class Crispresso2Parser(ParserInterface):
                 'Experiment': exp,
                 'Gene': exp.split('_')[0]}})
 
-        for exp in summary_dict:
-            well_folder = glob.glob(file_path + '/.*_exp' + exp.key)[0]
+        for experiment_object in summary_dict:
+            well_folder = glob.glob(file_path + '/.*_exp' + experiment_object)[0]
             crispresso_info = json.load(well_folder + '/' + filename)
 
-            summary_dict[exp.key].update({
+            summary_dict[experiment_object].update({
                 'Crispr': crispresso_info['running_info']['args']['value']['guide_seq'],
                 'Amplicon': crispresso_info['running_info']['args']['value']['amplicon_seq']
             })
