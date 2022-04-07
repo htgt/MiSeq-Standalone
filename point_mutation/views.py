@@ -18,7 +18,7 @@ from point_mutation.discover import DiscoverFolders
 from point_mutation.file_uploader import FileUploader
 
 
-@api_view(['GET']) ### TODO: HOME to allow for input file path, POST to redirect to dynamic URL with folder name i.e. Miseq_093
+@api_view(['GET']) 
 def home(request):
     if request.method == 'GET':
         context = discover_folders('/var/data/uploadedFiles/')
@@ -26,7 +26,7 @@ def home(request):
         return render(request, 'index.html', context)
 
 ### 
-# Home to have extensible folder selection based on discovery of what miseq folders have been added. Docker to have persistant volume using docker compose. 
+# Home to have extensible folder selection based on discovery of what miseq folders have been added. Docker to have persistant volume using docker compose.
 # selecting a folder from home loads miseq view
 # upload folders to volume by script (perhaps a UI later, be aware this will take time.)
 # title of page to be "Point Mutation - [Folder Name]"
